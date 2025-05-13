@@ -1,46 +1,40 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { WelcomeState } from "../../constants/Itypescript/welcomeState";
 
-// Initial state
+// Initial State
 const initialState: WelcomeState = {
-  // Basic Info
   name: "Ritick",
   dob: "",
-  gender: "",
+  gender: "Male",
   phone: "",
 
-  // Identity And Preferences
-  sexualPreference: "",
-  seekingFor: "",
-  lookingFor: "",
-  distance: "",
+  sexualPreference: "Straight",
+  seekingFor: "Female",
+  lookingFor: "Relationship",
+  distance: "10",
 
-  // Education And Work
   school: "",
-  educationLevel: "",
-  workoutHabit: "",
+  educationLevel: "Bachelors",
+  workoutHabit: "Sometimes",
 
-  // LifeStyle And Habits
-  drinkingHabit: "",
-  pets: "",
-  zodiac: "",
-  communicationStyle: "",
-  loveLanguage: "",
+  drinkingHabit: "Occasionally",
+  pets: "No",
+  zodiac: "Aries",
+  communicationStyle: "Direct",
+  loveLanguage: "Words of affirmation",
 
-  // Interests And Hobbies
   foodAndDrink: [],
   gaming: [],
   goingOut: [],
   music: [],
   outdoorAndAdventure: [],
-  SocialAndContent: [],
-  SportsAndFitness: [],
+  socialAndContent: [],
+  sportsAndFitness: [],
   stayingIn: [],
   tvAndMovies: [],
   valuesAndCauses: [],
-  wellnessAndLifeStyle: [],
+  wellnessAndLifestyle: [],
 
-  // Blocked Contacts
   blockedContact: [],
 };
 
@@ -54,8 +48,7 @@ const welcomeSlice = createSlice({
     ) => {
       const { field, value } = action.payload;
       if (Array.isArray(state[field])) return;
-      //   @ts-ignore
-      state[field] = value;
+      (state[field] as string) = value;
     },
     updateArrayInput: (
       state,
@@ -63,8 +56,7 @@ const welcomeSlice = createSlice({
     ) => {
       const { field, valueArray } = action.payload;
       if (Array.isArray(state[field])) {
-        // @ts-ignore
-        state[field] = valueArray;
+        (state[field] as string[]) = valueArray;
       }
     },
     resetInputs: () => initialState,
