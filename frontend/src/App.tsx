@@ -1,5 +1,11 @@
+import Welcome from "./Components/Welcome";
+
 const App = () => {
-  return <div>App</div>;
+  return (
+    <div>
+      <Welcome />
+    </div>
+  );
 };
 
 export default App;
