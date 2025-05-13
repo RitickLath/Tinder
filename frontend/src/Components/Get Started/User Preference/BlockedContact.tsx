@@ -1,5 +1,5 @@
 const BlockedContact = () => {
-  return <div>BlockedContact</div>;
+  return <div>Blocked Contact</div>;
 };
 
 export default BlockedContact;

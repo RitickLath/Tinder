@@ -1,5 +1,5 @@
 const LookingFor = () => {
-  return <div>LookingFor</div>;
+  return <div>Looking For</div>;
 };
 
 export default LookingFor;

@@ -1,5 +1,5 @@
 const SexualOrientation = () => {
-  return <div>SexualOrientation</div>;
+  return <div>Sexual Orientation</div>;
 };
 
 export default SexualOrientation;
