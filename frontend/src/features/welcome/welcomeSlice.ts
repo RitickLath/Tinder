@@ -1,5 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { WelcomeState } from "../../constants/Itypescript/welcomeState";
+import type {
+  WelcomeState,
+  Into,
+} from "../../constants/Itypescript/welcomeState";
 
 // Initial State
 const initialState: WelcomeState = {
@@ -8,32 +11,23 @@ const initialState: WelcomeState = {
   gender: "Male",
   phone: "",
 
-  sexualPreference: "Straight",
-  seekingFor: "Female",
-  lookingFor: "Relationship",
-  distance: "10",
+  sexualOrientation: "Straight",
+  showsexualOrientation: false,
+
+  interestedIn: "Female",
+  lookingFor: "Long-term partner",
 
   school: "",
-  educationLevel: "Bachelors",
-  workoutHabit: "Sometimes",
+  educationLevel: "Bachelor's Degree",
+  work: "Employed",
 
   drinkingHabit: "Occasionally",
-  pets: "No",
-  zodiac: "Aries",
-  communicationStyle: "Direct",
+  smokingHabit: "Non-smoker",
+  workoutHabit: "Sometimes",
+
   loveLanguage: "Words of affirmation",
 
-  foodAndDrink: [],
-  gaming: [],
-  goingOut: [],
-  music: [],
-  outdoorAndAdventure: [],
-  socialAndContent: [],
-  sportsAndFitness: [],
-  stayingIn: [],
-  tvAndMovies: [],
-  valuesAndCauses: [],
-  wellnessAndLifestyle: [],
+  into: [],
 
   blockedContact: [],
 };
@@ -47,23 +41,27 @@ const welcomeSlice = createSlice({
       action: PayloadAction<{ field: keyof WelcomeState; value: string }>
     ) => {
       const { field, value } = action.payload;
+
+      // Type narrowing: Avoid array fields here
       if (Array.isArray(state[field])) return;
+
       (state[field] as string) = value;
     },
-    updateArrayInput: (
-      state,
-      action: PayloadAction<{ field: keyof WelcomeState; valueArray: string[] }>
-    ) => {
-      const { field, valueArray } = action.payload;
-      if (Array.isArray(state[field])) {
-        (state[field] as string[]) = valueArray;
-      }
+
+    updateInto: (state, action: PayloadAction<Into[]>) => {
+      // Ensure only up to 5 items in into
+      state.into = action.payload.slice(0, 5);
     },
+
+    updateBlockedContacts: (state, action: PayloadAction<string[]>) => {
+      state.blockedContact = action.payload;
+    },
+
     resetInputs: () => initialState,
   },
 });
 
-export const { updateField, updateArrayInput, resetInputs } =
+export const { updateField, updateInto, updateBlockedContacts, resetInputs } =
   welcomeSlice.actions;
 
 export default welcomeSlice.reducer;

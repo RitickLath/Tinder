@@ -1,41 +1,32 @@
 export type Gender = "Male" | "Female" | "Non-Binary" | "Other";
 
-export type SexualPreference =
-  | "Straight"
+export type SexualOrientation =
+  | "Asexual"
+  | "Bisexual"
   | "Gay"
   | "Lesbian"
-  | "Bisexual"
-  | "Asexual"
-  | "Other";
+  | "Pansexual"
+  | "Queer"
+  | "Straight";
 
 export type LookingFor =
-  | "Relationship"
-  | "Friendship"
-  | "Casual"
-  | "Networking";
+  | "Long-term partner"
+  | "Long-term, open to short"
+  | "Short-term, open to long"
+  | "Short-term fun"
+  | "New friends"
+  | "Still figuring it out";
+
+export type SmokingHabit =
+  | "Social smoker"
+  | "Smoker when drinking"
+  | "Non-smoker"
+  | "Smoker"
+  | "Trying to quit";
 
 export type DrinkingHabit = "Never" | "Occasionally" | "Socially" | "Regularly";
 
-export type WorkoutHabit = "Never" | "Sometimes" | "Regularly" | "Daily";
-
-export type Zodiac =
-  | "Aries"
-  | "Taurus"
-  | "Gemini"
-  | "Leo"
-  | "Virgo"
-  | "Libra"
-  | "Scorpio"
-  | "Sagittarius"
-  | "Capricorn"
-  | "Aquarius"
-  | "Pisces";
-
-export type CommunicationStyle =
-  | "Direct"
-  | "Empathetic"
-  | "Playful"
-  | "Reserved";
+export type WorkoutHabit = "Everyday" | "Often" | "Sometimes" | "Never";
 
 export type LoveLanguage =
   | "Physical touch"
@@ -44,44 +35,81 @@ export type LoveLanguage =
   | "Gifts"
   | "Acts of service";
 
+export type EducationLevel =
+  | "High School"
+  | "Bachelor's Degree"
+  | "Master's Degree"
+  | "PhD"
+  | "Other";
+
+export type Work =
+  | "Student"
+  | "Employed"
+  | "Self-Employed"
+  | "Unemployed"
+  | "Retired"
+  | "Prefer not to say";
+
+export type Into =
+  | "Food and drinks"
+  | "Gaming"
+  | "Going Out"
+  | "Music"
+  | "Outdoor and adventure"
+  | "Social and content"
+  | "Sports and fitness"
+  | "Staying in"
+  | "TV and movies"
+  | "Values and causes"
+  | "Wellness and lifestyle"
+  | "Art & Culture"
+  | "Reading"
+  | "Traveling"
+  | "Photography"
+  | "Fashion & Style"
+  | "Pets & Animals"
+  | "Technology & Gadgets"
+  | "Mindfulness & Meditation"
+  | "DIY & Crafts"
+  | "Board Games & Puzzles"
+  | "Cooking & Baking"
+  | "Learning & Education"
+  | "Cars & Motorcycles"
+  | "Finance & Investing"
+  | "Comedy & Memes";
+
 export interface WelcomeState {
   // Basic info
-  name: string;
-  dob: string;
-  gender: Gender;
   phone: string;
+  name: string;
+  gender: Gender;
+  dob: string;
 
-  // Identity and preferences
-  sexualPreference: SexualPreference;
-  seekingFor: Gender;
+  // Sexual Orientation
+  sexualOrientation: SexualOrientation;
+  showsexualOrientation: boolean;
+
+  // Interested In
+  interestedIn: Gender;
   lookingFor: LookingFor;
-  distance: string;
 
   // Education and work
   school?: string;
-  educationLevel?: string;
+  educationLevel?: EducationLevel;
+  work: Work;
+
+  // LifeStyle Habits
+  drinkingHabit: DrinkingHabit;
+  smokingHabit: SmokingHabit;
   workoutHabit: WorkoutHabit;
 
-  // Lifestyle and habits
-  drinkingHabit: DrinkingHabit;
-  pets?: string;
-  zodiac: Zodiac;
-  communicationStyle: CommunicationStyle;
-  loveLanguage: LoveLanguage;
-
-  // Interests and hobbies
-  foodAndDrink: string[];
-  gaming: string[];
-  goingOut: string[];
-  music: string[];
-  outdoorAndAdventure: string[];
-  socialAndContent: string[];
-  sportsAndFitness: string[];
-  stayingIn: string[];
-  tvAndMovies: string[];
-  valuesAndCauses: string[];
-  wellnessAndLifestyle: string[];
+  // What are you into has to be array of 5
+  into: Into[];
 
   // Contacts to block
   blockedContact: string[];
+
+  // Lifestyle and habits
+
+  loveLanguage: LoveLanguage;
 }

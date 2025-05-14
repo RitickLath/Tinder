@@ -12,6 +12,7 @@ import {
   SeekingFor,
   LookingFor,
 } from "./User Preference/Preferences";
+import LoveLanguage from "./User Preference/Preferences/LoveLanguage";
 
 const ConditionalPage = ({ index }: { index: number }) => {
   return (
@@ -34,14 +35,17 @@ const ConditionalPage = ({ index }: { index: number }) => {
       {/* LifeStyle */}
       {index == 10 && <LifeStyle />}
 
+      {/* Love Language */}
+      {index == 11 && <LoveLanguage />}
+
       {/* What are you Into */}
-      {index == 11 && <WhatAreYouInto />}
+      {index == 12 && <WhatAreYouInto />}
 
       {/* Recent Pics of yours */}
-      {index == 12 && <RecentPics />}
+      {index == 13 && <RecentPics />}
 
       {/* Block Contacts */}
-      {index == 13 && <BlockedContact />}
+      {index == 14 && <BlockedContact />}
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import { useState, type FC } from "react";
 
 const drinkingOptions: string[] = [
-  "On special occasions",
-  "Socially on weekends",
-  "Most Nights",
+  "Never",
+  "Occasionally",
+  "Socially",
+  "Regularly",
 ];
 const smokingOptions: string[] = [
   "Social smoker",
@@ -96,3 +97,6 @@ const LifeStyle: FC = () => {
 };
 
 export default LifeStyle;
+
+
+// Love Language

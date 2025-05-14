@@ -1,10 +1,15 @@
-import Welcome from "./Components/Get Started/Welcome";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Welcome from "./pages/Welcome";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <div>
-      <Welcome />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/onboarding" element={<Welcome />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
