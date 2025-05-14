@@ -46,7 +46,7 @@ const BottomBar = () => {
   };
 
   return (
-    <div className="flex w-full h-[10vh] justify-between px-12 text-gray-500 text-3xl">
+    <div className="flex w-full h-[10dvh] justify-between px-12 text-gray-500 text-3xl">
       <FaFire
         onClick={() => handleClick(1)}
         className={`${

@@ -1,6 +1,6 @@
 const DOB = () => {
   return (
-    <div className="w-full min-h-[75vh]">
+    <div className="w-full min-h-[75dvh]">
       <h1 className="text-white font-bold text-2xl mb-10">Your b-day?</h1>
       <div className="w-full flex space-x-2">
         <input

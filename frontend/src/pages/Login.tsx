@@ -6,7 +6,7 @@ const Login = ({ onClose }: { onClose: () => void }) => {
   const [otp, setOtp] = useState("");
 
   return (
-    <div className="bg-[#111418] text-white w-full h-screen sm:max-w-[500px] sm:max-h-[500px] sm:rounded-2xl sm:shadow-xl sm:overflow-hidden sm:relative z-50 flex flex-col justify-center items-center px-4">
+    <div className="bg-[#111418] text-white w-full h-[100dvh] sm:max-w-[500px] sm:max-h-[500px] sm:rounded-2xl sm:shadow-xl sm:overflow-hidden sm:relative z-50 flex flex-col justify-center items-center px-4">
       {/* Tinder Logo */}
       <div className="absolute top-4 left-4">
         <h1 className="text-2xl font-bold">tinder</h1>

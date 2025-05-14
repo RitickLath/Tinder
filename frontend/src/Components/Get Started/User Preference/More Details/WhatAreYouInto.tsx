@@ -43,7 +43,7 @@ const WhatAreYouInto = () => {
   };
 
   return (
-    <div className="w-full min-h-[75vh]">
+    <div className="w-full min-h-[75dvh]">
       <h1 className="text-white font-bold text-2xl mb-2">What are you into?</h1>
       <h2 className="text-[#B9B9C2] mb-4">
         Select your interests to help match with like-minded people.

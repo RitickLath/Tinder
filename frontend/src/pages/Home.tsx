@@ -7,7 +7,7 @@ const Home = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   return (
-    <div className="relative w-full h-screen text-white overflow-hidden">
+    <div className="relative w-full h-[100dvh] text-white overflow-hidden">
       {/* Background Image */}
       <picture>
         <source

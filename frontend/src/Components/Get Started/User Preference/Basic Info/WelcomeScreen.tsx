@@ -1,6 +1,6 @@
 const WelcomeScreen = () => {
   return (
-    <div className="w-full min-h-[75vh] flex flex-col justify-center">
+    <div className="w-full min-h-[75dvh] flex flex-col justify-center">
       <h1 className="text-white font-bold text-2xl">Welcome to Tinder</h1>
       <p className="text-[#B9B9C2]">Please follow these House Rules.</p>
 

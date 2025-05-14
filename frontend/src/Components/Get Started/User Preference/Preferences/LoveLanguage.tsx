@@ -37,7 +37,7 @@ const LoveLanguage = () => {
   };
 
   return (
-    <div className="w-full min-h-[75vh] mb-12">
+    <div className="w-full min-h-[75dvh] mb-12">
       <h1 className="text-white font-bold text-2xl mb-2">
         What's your love language?
       </h1>

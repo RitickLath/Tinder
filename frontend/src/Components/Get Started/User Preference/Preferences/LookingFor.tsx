@@ -18,7 +18,7 @@ const LookingFor = () => {
   const [selected, setSelected] = useState<number | null>(null);
 
   return (
-    <div className="w-full min-h-[75vh]">
+    <div className="w-full min-h-[75dvh]">
       <h1 className="text-white font-bold text-2xl mb-2">
         What are you looking for?
       </h1>

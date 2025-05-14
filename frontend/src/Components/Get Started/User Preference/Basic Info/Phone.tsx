@@ -15,7 +15,7 @@ const Phone = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   return (
-    <div className="w-full min-h-[75vh]">
+    <div className="w-full min-h-[75dvh]">
       <h1 className="text-white font-bold text-2xl mb-4">
         What's your phone number?
       </h1>

@@ -18,9 +18,9 @@ const Welcome: FC = () => {
   };
 
   return (
-    <div className="bg-[#111418] text-white w-full h-screen  flex flex-col px-8 py-4">
+    <div className="bg-[#111418] text-white w-full h-[100dvh]  flex flex-col px-8 py-4">
       {/* Header */}
-      <div className="flex items-center justify-between min-h-[10vh]">
+      <div className="flex items-center justify-between min-h-[10dvh]">
         {index != 1 && (
           <button
             onClick={handleBack}
@@ -38,7 +38,7 @@ const Welcome: FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="w-full flex items-center justify-center min-h-[10vh]">
+      <div className="w-full flex items-center justify-center min-h-[10dvh]">
         <button
           onClick={handleNext}
           className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"

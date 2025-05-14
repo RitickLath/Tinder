@@ -1,6 +1,6 @@
 const Name = () => {
   return (
-    <div className="w-full min-h-[75vh]">
+    <div className="w-full min-h-[75dvh]">
       <h1 className="text-white font-bold text-2xl mb-10">
         What's your first name?
       </h1>
