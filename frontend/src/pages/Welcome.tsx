@@ -2,17 +2,19 @@ import { useState, type FC } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import ProgressBar from "../Components/ProgressBar";
 import ConditionalPage from "../Components/Get Started/ConditionalPage";
+import { useNavigate } from "react-router-dom";
 
 const Welcome: FC = () => {
   const [index, setIndex] = useState(1);
+  const navigate = useNavigate();
 
   const handleBack = () => {
     if (index > 1) setIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    if (index < 14) setIndex((prev) => prev + 1);
-    else setIndex(14);
+    if (index == 14) navigate("/app/recs");
+    else setIndex((prev) => prev + 1);
   };
 
   return (
