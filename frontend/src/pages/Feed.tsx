@@ -1,7 +1,46 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { imagesResponse } from "../constants/hardcoded/constants";
+
 const Feed = () => {
+  const [index] = useState<number>(0);
+  const [innerIndex, setInnerIndex] = useState<number>(0);
+
+  const handleTap = () => {
+    setInnerIndex((prev) => (prev + 1) % imagesResponse[index].images.length);
+  };
+  // ON Swipe we will set the innerIndex to 0 and increment the index by one in all cases we dont allow previous for index value
+
   return (
-    <div className="px-6 py-4 bg-[#111418] text-white w-full h-[80dvh]">
-      <h1>texttst</h1>
+    <div className="p-4 bg-[#111418] text-white w-full h-[80vh] flex flex-col">
+      {/* Image view progress bar */}
+      <div className="flex gap-2 h-1 mb-4">
+        {imagesResponse[index].images.map((_, ind) => (
+          <div
+            key={ind}
+            className={`flex-1 h-1 rounded-full ${
+              innerIndex === ind ? "bg-gray-300" : "bg-gray-700"
+            } transition-all duration-300`}
+          ></div>
+        ))}
+      </div>
+
+      {/* Image Viewer */}
+      <div
+        onClick={handleTap}
+        className="flex-1 w-full flex justify-center items-center cursor-pointer relative overflow-hidden rounded-xl"
+      >
+        <motion.img
+          key={imagesResponse[index].images[innerIndex]}
+          src={imagesResponse[index].images[innerIndex]}
+          alt={`Slide ${innerIndex + 1}`}
+          className="w-full h-full object-cover rounded-xl max-w-3xl mx-auto"
+          initial={{ opacity: 0.5, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.5 }}
+        />
+      </div>
     </div>
   );
 };
