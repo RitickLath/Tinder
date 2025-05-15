@@ -12,7 +12,7 @@ const Feed = () => {
   // ON Swipe we will set the innerIndex to 0 and increment the index by one in all cases we dont allow previous for index value
 
   return (
-    <div className="p-4 bg-[#111418] text-white w-full h-[80vh] flex flex-col">
+    <div className="p-4 bg-[#111418] text-white w-full h-[80dvh] flex flex-col">
       {/* Image view progress bar */}
       <div className="flex gap-2 h-1 mb-4">
         {imagesResponse[index].images.map((_, ind) => (
@@ -34,7 +34,7 @@ const Feed = () => {
           key={imagesResponse[index].images[innerIndex]}
           src={imagesResponse[index].images[innerIndex]}
           alt={`Slide ${innerIndex + 1}`}
-          className="w-full h-full object-cover rounded-xl max-w-3xl mx-auto"
+          className="h-[80%] object-cover rounded-xl max-w-3xl mx-auto"
           initial={{ opacity: 0.5, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
