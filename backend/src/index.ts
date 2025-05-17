@@ -16,6 +16,5 @@ app.use(express.json());
 app.use(cookieParsar());
 
 app.get("/", async (req, res) => {
-  const user = await db.user.find();
-  res.json(user);
+  res.json("user");
 });
