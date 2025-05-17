@@ -5,6 +5,7 @@ import cookieParsar from "cookie-parser";
 //import { PrismaClient } from "@prisma/client";
 
 import { PrismaClient } from "../src/generated/prisma";
+import { AuthRouter } from "./routes/auth.route";
 
 dotenv.config();
 
@@ -15,6 +16,4 @@ export const app = express();
 app.use(express.json());
 app.use(cookieParsar());
 
-app.get("/", async (req, res) => {
-  res.json("user");
-});
+app.use("/api/v1/auth", AuthRouter);

@@ -41,6 +41,8 @@ model Otp {
   code      String
   expiredAt DateTime
   createdAt DateTime      @default(now())
+  // 
+  verified  Boolean       @default(false)
 }
 
 model Preference {
