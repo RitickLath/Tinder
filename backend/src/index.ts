@@ -9,7 +9,7 @@ import { AuthRouter } from "./routes/auth.route";
 
 dotenv.config();
 
-const db = new PrismaClient();
+export const db = new PrismaClient();
 
 export const app = express();
 
