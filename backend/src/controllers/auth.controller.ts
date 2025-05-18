@@ -146,13 +146,133 @@ export const otpVerify = async (req: Request, res: Response) => {
 };
 
 export const signup = async (req: Request, res: Response) => {
-  // 1. Extract JWT token from Authorization header.
-  // 2. Verify the JWT token. (proof that user have passed otp verification)
-  // 3. Extract user info (phone) from token payload.
-  // 4. Get name, email, etc. from request body (signup details).
-  // 5. Validate & sanitize this user data.
-  // 6. Save new user to database (create user profile).
-  // 7. Respond with success message & user profile data and jwt token new.(long lived)
+  try {
+    // 1. Extract JWT token from Authorization header.
+    const { authToken } = req.cookies;
+
+    // 2. Verify the JWT token. (proof that user have passed otp verification)
+    if (!authToken) {
+      res.status(301).json({ status: false, message: "Token is Required." });
+      return;
+    }
+
+    let tokenValid;
+    try {
+      tokenValid = jwt.verify(authToken, JWT_SECRET);
+    } catch (err) {
+      res
+        .status(301)
+        .json({ status: false, message: "Token Not Valid or Expired." });
+      return;
+    }
+
+    // 3. Extract user info (phone) from token payload.
+    const payload = jwt.decode(authToken) as { phone: string };
+    const phone = payload?.phone;
+
+    const { name } = req.body;
+    if (!name) {
+      res
+        .status(400)
+        .json({ status: false, message: "Name and Email are required." });
+      return;
+    }
+
+    // 4. Get name, etc. from request body (signup details).
+    // 5. Validate & sanitize this user data.
+    const existingUser = await db.user.findFirst({ where: { phone } });
+    if (existingUser) {
+      res.status(400).json({
+        status: false,
+        message: "User already exists with this phone.",
+      });
+      return;
+    }
+
+    // 6. Save new user to database
+    const newUser = await db.user.create({
+      data: {
+        name,
+        phone,
+      },
+    });
+
+    if (!newUser) {
+      throw new Error("Something Went Wrong");
+    }
+
+    // 7. Extract Data for preference
+    const {
+      gender,
+      birthDate,
+      sexualOrientation,
+      showSexualOrientation,
+      interestedIn,
+      lookingFor,
+      school,
+      highestEducation,
+      work,
+      drink,
+      smoke,
+      workout,
+      loveLanguage,
+      into,
+      blocked_contacts,
+    } = req.body;
+
+
+
+    const preference = await db.preference.create({
+      data: {
+        user: {
+          connect: { id: newUser.id },
+        },
+        gender,
+        birthDate,
+        sexualOrientation,
+        showSexualOrientation,
+        interestedIn,
+        lookingFor,
+        school,
+        highestEducation,
+        work,
+        drink,
+        smoke,
+        workout,
+        loveLanguage,
+        into,
+        blocked_contacts,
+      },
+    });
+
+    // 8. Respond with success message & user profile data and jwt token new.(long lived)
+    const newToken = jwt.sign(
+      { id: newUser.id, phone: newUser.phone },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.cookie("authToken", newToken, {
+      httpOnly: true,
+      // secure: true, // only in production
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(201).json({
+      status: true,
+      message: "Signup successful.",
+      user: {
+        id: newUser.id,
+        name: newUser.name,
+        phone: newUser.phone,
+        preference: preference,
+      },
+      token: newToken,
+    });
+  } catch (error: any) {
+    console.error("Error during signup:", error.message);
+    res.status(500).json({ status: false, message: "Internal server error." });
+  }
 };
 
 export const login = async (req: Request, res: Response) => {
