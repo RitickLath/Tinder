@@ -49,16 +49,16 @@ model Preference {
   id                   Int                @id @default(autoincrement())
   gender               Gender
   birthDate            DateTime
-  sexualOrientation    SexualOrientation
-  showSexualOrientation Boolean
-  interestedIn         InterestedIn
-  lookingFor           LookingFor
+  sexualOrientation    SexualOrientation 
+  showSexualOrientation Boolean         
+  interestedIn         InterestedIn     
+  lookingFor           LookingFor       
   school               String?
   highestEducation     HighestEducation
-  work                 Work
-  drink                Drink
-  smoke                Smoke
-  workout              Workout
+  work                 Work            
+  drink                Drink           
+  smoke                Smoke           
+  workout              Workout         
   loveLanguage         LoveLanguage
   into                 Interests[]
   blocked_contacts     String[]

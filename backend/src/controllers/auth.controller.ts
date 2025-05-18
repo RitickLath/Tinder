@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "..";
 import jwt from "jsonwebtoken";
+import { undefined } from "zod";
 
 const JWT_SECRET = process.env.JWT_SECRET || "YOUR_DEV_SECRET";
 
@@ -152,7 +153,7 @@ export const signup = async (req: Request, res: Response) => {
 
     // 2. Verify the JWT token. (proof that user have passed otp verification)
     if (!authToken) {
-      res.status(301).json({ status: false, message: "Token is Required." });
+      res.status(401).json({ status: false, message: "Token is Required." });
       return;
     }
 
@@ -161,7 +162,7 @@ export const signup = async (req: Request, res: Response) => {
       tokenValid = jwt.verify(authToken, JWT_SECRET);
     } catch (err) {
       res
-        .status(301)
+        .status(401)
         .json({ status: false, message: "Token Not Valid or Expired." });
       return;
     }
@@ -173,7 +174,7 @@ export const signup = async (req: Request, res: Response) => {
     const { name } = req.body;
     if (!name) {
       res
-        .status(400)
+        .status(409)
         .json({ status: false, message: "Name and Email are required." });
       return;
     }
@@ -182,7 +183,7 @@ export const signup = async (req: Request, res: Response) => {
     // 5. Validate & sanitize this user data.
     const existingUser = await db.user.findFirst({ where: { phone } });
     if (existingUser) {
-      res.status(400).json({
+      res.status(409).json({
         status: false,
         message: "User already exists with this phone.",
       });
@@ -198,7 +199,7 @@ export const signup = async (req: Request, res: Response) => {
     });
 
     if (!newUser) {
-      throw new Error("Something Went Wrong");
+      throw new Error("User creation failed.");
     }
 
     // 7. Extract Data for preference
@@ -220,7 +221,31 @@ export const signup = async (req: Request, res: Response) => {
       blocked_contacts,
     } = req.body;
 
+    if (
+      !gender ||
+      !birthDate ||
+      !sexualOrientation ||
+      showSexualOrientation === undefined ||
+      !interestedIn ||
+      !lookingFor ||
+      !highestEducation ||
+      !work ||
+      !drink ||
+      !smoke ||
+      !workout ||
+      !loveLanguage ||
+      !into ||
+      !blocked_contacts
+    ) {
+      // Delete user if preference is incomplete
+      await db.user.delete({ where: { id: newUser.id } });
 
+      res.status(400).json({
+        status: false,
+        message: "All fields for preference are required.",
+      });
+      return;
+    }
 
     const preference = await db.preference.create({
       data: {
