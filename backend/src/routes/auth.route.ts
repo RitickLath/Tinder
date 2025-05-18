@@ -1,6 +1,7 @@
 import express from "express";
 import {
   login,
+  logout,
   OtpSent,
   otpVerify,
   signup,
@@ -14,4 +15,6 @@ AuthRouter.post("/otp/verify", otpVerify);
 
 AuthRouter.post("/signup", signup);
 
-AuthRouter.post("login", login);
+AuthRouter.post("/login", login);
+
+AuthRouter.post("/logout", logout);

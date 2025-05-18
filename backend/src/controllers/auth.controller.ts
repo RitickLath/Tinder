@@ -277,7 +277,9 @@ export const signup = async (req: Request, res: Response) => {
       { expiresIn: "7d" }
     );
 
-    res.cookie("authToken", newToken, {
+    // 8. Add Cookie
+    res.clearCookie("authToken", { httpOnly: true });
+    res.cookie("auth", newToken, {
       httpOnly: true,
       // secure: true, // only in production
       maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -301,9 +303,86 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  // 1. Extract & verify JWT token from headers.
-  // 2. If token is valid, the user is logged in.
-  // 3. Respond with user session/token (long lived)
+  try {
+    const { authToken } = req.cookies;
+
+    // 1. Verify the JWT token. (Proof that user has passed OTP verification)
+    if (!authToken) {
+      return res
+        .status(401)
+        .json({ status: false, message: "Token is required." });
+    }
+
+    let tokenValid;
+    try {
+      tokenValid = jwt.verify(authToken, JWT_SECRET);
+    } catch (err) {
+      return res
+        .status(401)
+        .json({ status: false, message: "Token not valid or expired." });
+    }
+
+    const payload = jwt.decode(authToken) as { phone: string };
+    const phone = payload?.phone;
+
+    if (!phone) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Invalid token payload." });
+    }
+
+    // 2. Check if user exists with given phone number
+    const getUser = await db.user.findFirst({ where: { phone } });
+
+    if (!getUser) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found with the provided phone number.",
+      });
+    }
+
+    // 3. Generate a new long-lived session token
+    const newToken = jwt.sign({ phone, id: getUser.id }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.clearCookie("authToken", { httpOnly: true });
+    // 4. Set new auth cookie
+    res.cookie("auth", newToken, {
+      httpOnly: true,
+      // secure: true, // Enable in production with HTTPS
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    return res.status(200).json({
+      status: true,
+      message: "User logged in successfully.",
+      token: newToken,
+    });
+  } catch (error: any) {
+    console.error("Login error:", error.message);
+    return res
+      .status(500)
+      .json({ status: false, message: "Internal server error." });
+  }
+};
+
+export const logout = async (req: Request, res: Response) => {
+  try {
+    res.clearCookie("auth", {
+      httpOnly: true,
+      // secure: true, // In production with HTTPS
+    });
+
+    return res
+      .status(200)
+      .json({ status: true, message: "Logout successful." });
+  } catch (error: any) {
+    console.error("Logout error:", error.message);
+    return res
+      .status(500)
+      .json({ status: false, message: "Internal server error." });
+  }
 };
 
 // In both signup and signin the jwt token or cookie whatever we choose says that we have passsed the otp verifiaction test.
