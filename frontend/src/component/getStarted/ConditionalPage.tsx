@@ -1,6 +1,14 @@
-import { Phone, Name, Gender, DOB } from "./userPreference/basicInfo";
-import OTP from "./userPreference/basicInfo/OTP";
-import WelcomeScreen from "./userPreference/basicInfo/WelcomeScreen";
+import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
+import ProgressBar from "../ProgressBar";
+import {
+  WelcomeScreen,
+  Phone,
+  OTP,
+  Name,
+  Gender,
+  DOB,
+} from "./userPreference/basicInfo";
 import {
   Education,
   LifeStyle,
@@ -12,43 +20,59 @@ import {
   SexualOrientation,
   SeekingFor,
   LookingFor,
+  LoveLanguage,
 } from "./userPreference/preferences";
-import LoveLanguage from "./userPreference/preferences/LoveLanguage";
 
-const ConditionalPage = ({ index }: { index: number }) => {
-  // const [disable, setDisable] = useState<boolean>(false);
+const ConditionalPage = () => {
+  const [index, setIndex] = useState(1);
   return (
-    <div className="flex-grow flex items-center justify-center">
-      {/* Basic Info */}
-      {index == 1 && <WelcomeScreen />}
-      {index == 2 && <Phone />}
-      {index == 3 && <OTP />}
-      {index == 4 && <Name />}
-      {index == 5 && <Gender />}
-      {index == 6 && <DOB />}
+    <div>
+      {/* Progess bar and Letf arrow */}
+      <div className="flex items-center justify-between min-h-[10dvh]">
+        {index != 1 && (
+          <button
+            onClick={() => setIndex(index - 1)}
+            className="hover:bg-[#222529] p-2 rounded-xl"
+          >
+            <FaArrowLeft className="text-xl" />
+          </button>
+        )}
+        <ProgressBar index={index} />
+      </div>
 
-      {/* Preferences */}
-      {index == 7 && <SexualOrientation />}
-      {index == 8 && <SeekingFor />}
-      {index == 9 && <LookingFor />}
+      {/* Conditional Rendering */}
+      <div className="flex-grow flex items-center justify-center">
+        {/* Basic Info */}
+        {index == 1 && <WelcomeScreen index={index} setIndex={setIndex} />}
+        {index == 2 && <Phone index={index} setIndex={setIndex} />}
+        {index == 3 && <OTP index={index} setIndex={setIndex} />}
+        {index == 4 && <Name index={index} setIndex={setIndex} />}
+        {index == 5 && <Gender index={index} setIndex={setIndex} />}
+        {index == 6 && <DOB index={index} setIndex={setIndex} />}
 
-      {/* Education And Work */}
-      {index == 10 && <Education />}
+        {/* Preferences */}
+        {index == 7 && <SexualOrientation index={index} setIndex={setIndex} />}
+        {index == 8 && <SeekingFor index={index} setIndex={setIndex} />}
+        {index == 9 && <LookingFor index={index} setIndex={setIndex} />}
 
-      {/* LifeStyle */}
-      {index == 11 && <LifeStyle />}
+        {/* Education And Work */}
+        {index == 10 && <Education index={index} setIndex={setIndex} />}
 
-      {/* Love Language */}
-      {index == 12 && <LoveLanguage />}
+        {/* LifeStyle */}
+        {index == 11 && <LifeStyle index={index} setIndex={setIndex} />}
 
-      {/* What are you Into */}
-      {index == 13 && <WhatAreYouInto />}
+        {/* Love Language */}
+        {index == 12 && <LoveLanguage index={index} setIndex={setIndex} />}
 
-      {/* Recent Pics of yours */}
-      {index == 14 && <RecentPics />}
+        {/* What are you Into */}
+        {index == 13 && <WhatAreYouInto index={index} setIndex={setIndex} />}
 
-      {/* Block Contacts */}
-      {index == 15 && <BlockedContact />}
+        {/* Recent Pics of yours */}
+        {index == 14 && <RecentPics index={index} setIndex={setIndex} />}
+
+        {/* Block Contacts */}
+        {index == 15 && <BlockedContact />}
+      </div>
     </div>
   );
 };

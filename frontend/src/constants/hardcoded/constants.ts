@@ -27,3 +27,156 @@ export const imagesResponse = [
     ],
   },
 ];
+
+export interface IProp {
+  index: number;
+  setIndex: (i: number) => void;
+}
+
+export const SexualOptions = [
+  {
+    title: "Asexual",
+    description: "A person who does not experience sexual attraction.",
+  },
+  {
+    title: "Bisexual",
+    description: "Attraction to more than one gender.",
+  },
+  {
+    title: "Gay",
+    description:
+      "A man who is emotionally, romantically, or sexually attracted to other men.",
+  },
+  {
+    title: "Lesbian",
+    description:
+      "A woman who is emotionally, romantically, or sexually attracted to other women.",
+  },
+  {
+    title: "Pansexual",
+    description:
+      "Attraction towards people regardless of their gender identity.",
+  },
+  {
+    title: "Queer",
+    description:
+      "A term used by some to describe sexual orientation that is not exclusively heterosexual.",
+  },
+  {
+    title: "Straight",
+    description:
+      "A person who is emotionally, romantically, or sexually attracted to people of the opposite gender.",
+  },
+];
+
+export const seekingOptions = [
+  { title: "Man" },
+  { title: "Woman" },
+  { title: "Everyone" },
+];
+
+export const lookingForOption: ILookingForOption[] = [
+  { emoji: "💝", title: "Long-term partner" },
+  { emoji: "😍", title: "Long-term, open to short" },
+  { emoji: "🥂", title: "Short-term, open to long" },
+  { emoji: "🎉", title: "Short-term fun" },
+  { emoji: "👋", title: "New friends" },
+  { emoji: "🤔", title: "Still figuring it out" },
+];
+
+export interface ILookingForOption {
+  emoji: string;
+  title: string;
+}
+
+export const educationLevels: string[] = [
+  "High School",
+  "Bachelor's Degree",
+  "Master's Degree",
+  "PhD",
+  "Other",
+];
+export const workOptions: string[] = [
+  "Student",
+  "Employed",
+  "Self-Employed",
+  "Unemployed",
+  "Retired",
+  "Prefer not to say",
+];
+
+export const drinkingOptions: string[] = [
+  "Never",
+  "Occasionally",
+  "Socially",
+  "Regularly",
+];
+
+export const smokingOptions: string[] = [
+  "Social smoker",
+  "Smoker when drinking",
+  "Non-smoker",
+  "Smoker",
+  "Trying to quit",
+];
+
+export const workoutOptions: string[] = [
+  "Everyday",
+  "Often",
+  "Sometimes",
+  "Never",
+];
+
+export const LoveLanguageOption = [
+  {
+    title: "Physical touch",
+    description: "Expressing and receiving love through physical affection.",
+  },
+  {
+    title: "Words of affirmation",
+    description:
+      "Expressing love through spoken or written words of support and affection.",
+  },
+  {
+    title: "Quality time",
+    description:
+      "Giving someone your undivided attention to show love and care.",
+  },
+  {
+    title: "Gifts",
+    description: "Expressing love by giving thoughtful gifts.",
+  },
+  {
+    title: "Acts of service",
+    description: "Showing love by doing helpful things for others.",
+  },
+];
+
+export const interests = [
+  "Food and drinks",
+  "Gaming",
+  "Going Out",
+  "Music",
+  "Outdoor and adventure",
+  "Social and content",
+  "Sports and fitness",
+  "Staying in",
+  "TV and movies",
+  "Values and causes",
+  "Wellness and lifestyle",
+  "Art & Culture",
+  "Reading",
+  "Traveling",
+  "Photography",
+  "Fashion & Style",
+  "Pets & Animals",
+  "Technology & Gadgets",
+  "Mindfulness & Meditation",
+  "DIY & Crafts",
+  "Board Games & Puzzles",
+  "Cooking & Baking",
+  "Learning & Education",
+  "Cars & Motorcycles",
+  "Finance & Investing",
+  "Comedy & Memes",
+];

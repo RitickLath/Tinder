@@ -1,42 +1,54 @@
 import { useState } from "react";
+import type { IProp } from "../../../../constants/hardcoded/constants";
 
-const Gender = () => {
+const Gender = ({ index, setIndex }: IProp) => {
   const [selected, setSelected] = useState<number>(0);
   return (
-    <div className="w-full min-h-[75dvh]">
-      <h1 className="text-white font-bold text-2xl mb-10">
-        What's your gender?
-      </h1>
-      <div className="flex flex-col space-y-6">
+    <div className="w-full">
+      <div className="w-full min-h-[75dvh]">
+        <h1 className="text-white font-bold text-2xl mb-10">
+          What's your gender?
+        </h1>
+        <div className="flex flex-col space-y-6">
+          <button
+            onClick={() => setSelected(1)}
+            className={`${
+              selected == 1 ? "border-[#FE5164]" : "border-[#505965]"
+            } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
+          >
+            Man
+          </button>
+          <button
+            onClick={() => setSelected(2)}
+            className={`${
+              selected == 2 ? "border-[#FE5164]" : "border-[#505965]"
+            } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
+          >
+            Woman
+          </button>
+          <button
+            onClick={() => setSelected(3)}
+            className={`${
+              selected == 3 ? "border-[#FE5164]" : "border-[#505965]"
+            } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
+          >
+            Other
+          </button>
+        </div>
+        <p className="text-[#B9B9C2] mt-4">
+          This is how it'll appear on your profile.
+        </p>
+        <p className="text-[#B9B9C2] font-bold">You can’t change it later.</p>
+      </div>
+      {/* Button Next */}
+      <div className="w-full flex items-center justify-center min-h-[10dvh]">
         <button
-          onClick={() => setSelected(1)}
-          className={`${
-            selected == 1 ? "border-[#FE5164]" : "border-[#505965]"
-          } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
+          onClick={() => setIndex(index + 1)}
+          className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
         >
-          Man
-        </button>
-        <button
-          onClick={() => setSelected(2)}
-          className={`${
-            selected == 2 ? "border-[#FE5164]" : "border-[#505965]"
-          } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
-        >
-          Woman
-        </button>
-        <button
-          onClick={() => setSelected(3)}
-          className={`${
-            selected == 3 ? "border-[#FE5164]" : "border-[#505965]"
-          } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
-        >
-          Other
+          Next
         </button>
       </div>
-      <p className="text-[#B9B9C2] mt-4">
-        This is how it'll appear on your profile.
-      </p>
-      <p className="text-[#B9B9C2] font-bold">You can’t change it later.</p>
     </div>
   );
 };
