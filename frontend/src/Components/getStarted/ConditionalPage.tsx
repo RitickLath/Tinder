@@ -1,19 +1,19 @@
-import { Phone, Name, Gender, DOB } from "./user preference/basic_info";
-import OTP from "./user preference/basic_info/OTP";
-import WelcomeScreen from "./user preference/basic_info/WelcomeScreen";
+import { Phone, Name, Gender, DOB } from "./userPreference/basicInfo";
+import OTP from "./userPreference/basicInfo/OTP";
+import WelcomeScreen from "./userPreference/basicInfo/WelcomeScreen";
 import {
   Education,
   LifeStyle,
   WhatAreYouInto,
   RecentPics,
   BlockedContact,
-} from "./user preference/more_details";
+} from "./userPreference/moreDetails";
 import {
   SexualOrientation,
   SeekingFor,
   LookingFor,
-} from "./user preference/preferences";
-import LoveLanguage from "./user preference/preferences/LoveLanguage";
+} from "./userPreference/preferences";
+import LoveLanguage from "./userPreference/preferences/LoveLanguage";
 
 const ConditionalPage = ({ index }: { index: number }) => {
   // const [disable, setDisable] = useState<boolean>(false);
