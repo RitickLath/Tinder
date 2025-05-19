@@ -39,7 +39,7 @@ const OTP = () => {
   return (
     <div className="w-full min-h-[75dvh]">
       <h1 className="text-white font-bold text-2xl mb-10">Enter the OTP</h1>
-      <div className="w-full flex space-x-2">
+      <div className="ml-1 w-full flex space-x-2">
         {inputArray.map((value, i) => (
           <input
             key={i}
@@ -47,7 +47,7 @@ const OTP = () => {
             inputMode="numeric"
             pattern="[0-9]*"
             maxLength={1}
-            className="w-[60px] text-center py-3 px-4 rounded-lg bg-black text-white focus:outline-none focus:ring-2 focus:ring-blue-700 mb-3"
+            className="w-[40px] sm:w-[60px] text-center py-3 px-4 rounded-lg bg-black text-white focus:outline-none focus:ring-2 focus:ring-blue-700 mb-3"
             value={value}
             onChange={(e) => handleChange(e.target.value, i)}
             onKeyDown={(e) => handleKeyDown(e, i)}
