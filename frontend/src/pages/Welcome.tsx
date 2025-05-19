@@ -1,7 +1,7 @@
 import { useState, type FC } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import ProgressBar from "../components/ProgressBar";
-import ConditionalPage from "../components/getStarted/ConditionalPage";
+import ProgressBar from "../component/ProgressBar";
+import ConditionalPage from "../component/getStarted/ConditionalPage";
 import { useNavigate } from "react-router-dom";
 
 const Welcome: FC = () => {
