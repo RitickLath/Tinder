@@ -1,19 +1,28 @@
 import { useState, type FC } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import ProgressBar from "../Components/ProgressBar";
-import ConditionalPage from "../Components/Get Started/ConditionalPage";
+import ProgressBar from "../components/ProgressBar";
+import ConditionalPage from "../components/Get Started/ConditionalPage";
 import { useNavigate } from "react-router-dom";
 
 const Welcome: FC = () => {
   const [index, setIndex] = useState(1);
   const navigate = useNavigate();
 
+  const buttonText = (index: number) => {
+    if (index == 2) {
+      return "Send OTP";
+    } else if (index == 15) {
+      return "Finish";
+    }
+    return "Next";
+  };
+
   const handleBack = () => {
     if (index > 1) setIndex((prev) => prev - 1);
   };
 
   const handleNext = () => {
-    if (index == 14) navigate("/app/recs");
+    if (index == 15) navigate("/app/recs");
     else setIndex((prev) => prev + 1);
   };
 
@@ -43,7 +52,7 @@ const Welcome: FC = () => {
           onClick={handleNext}
           className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
         >
-          {index < 14 ? "Next" : "Finish"}
+          {buttonText(index)}
         </button>
       </div>
     </div>

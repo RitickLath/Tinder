@@ -4,7 +4,7 @@ const ProgressBar = ({ index }: { index: number }) => {
       <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
         <div
           className="h-full bg-gradient-to-r from-[#FC5F70] to-[#E419BB] transition-all duration-300"
-          style={{ width: `${(100 / 14) * index}%` }}
+          style={{ width: `${(100 / 15) * index}%` }}
         />
       </div>
     </div>

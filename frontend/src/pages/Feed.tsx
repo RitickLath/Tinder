@@ -5,7 +5,7 @@ import { imagesResponse } from "../constants/hardcoded/constants";
 const Feed = () => {
   const [index, setIndex] = useState<number>(0);
   const [innerIndex, setInnerIndex] = useState<number>(0);
-  
+
   const handleNext = () => {
     setInnerIndex((prev) => (prev + 1) % imagesResponse[index].images.length);
   };

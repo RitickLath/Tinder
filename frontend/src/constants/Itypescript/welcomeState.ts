@@ -1,4 +1,4 @@
-export type Gender = "Male" | "Female" | "Non-Binary" | "Other";
+export type Gender = "Male" | "Female" | "Other";
 
 export type SexualOrientation =
   | "Asexual"
@@ -90,7 +90,7 @@ export interface WelcomeState {
   showsexualOrientation: boolean;
 
   // Interested In
-  interestedIn: Gender;
+  interestedIn: "Male" | "Female" | "Everyone";
   lookingFor: LookingFor;
 
   // Education and work
