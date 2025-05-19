@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { db } from "..";
 import jwt from "jsonwebtoken";
-import { undefined } from "zod";
 
 const JWT_SECRET = process.env.JWT_SECRET || "YOUR_DEV_SECRET";
 
@@ -302,7 +301,7 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const signin = async (req: Request, res: Response) => {
   try {
     const { authToken } = req.cookies;
 
@@ -367,7 +366,7 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-export const logout = async (req: Request, res: Response) => {
+export const signout = async (req: Request, res: Response) => {
   try {
     res.clearCookie("auth", {
       httpOnly: true,

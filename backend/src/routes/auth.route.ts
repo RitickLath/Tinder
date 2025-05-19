@@ -4,6 +4,8 @@ import {
   logout,
   OtpSent,
   otpVerify,
+  signin,
+  signout,
   signup,
 } from "../controllers/auth.controller";
 
@@ -15,6 +17,6 @@ AuthRouter.post("/otp/verify", otpVerify);
 
 AuthRouter.post("/signup", signup);
 
-AuthRouter.post("/login", login);
+AuthRouter.post("/signin", signin);
 
-AuthRouter.post("/logout", logout);
+AuthRouter.post("/signout", signout);
