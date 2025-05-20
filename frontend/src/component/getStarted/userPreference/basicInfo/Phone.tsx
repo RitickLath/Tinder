@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../redux/store";
 import { updateField } from "../../../../features/welcome/welcomeSlice";
 import { useState } from "react";
+import axios from "axios";
 
 interface IProp {
   index: number;
@@ -10,16 +11,42 @@ interface IProp {
 
 const Phone = ({ index, setIndex }: IProp) => {
   // RTK
+  const name = useSelector((state: RootState) => state.welcome.name);
   const phoneNumber = useSelector((state: RootState) => state.welcome.phone);
   const dispatch = useDispatch();
 
   const [error, setError] = useState("");
 
-  const handleNext = () => {
+  const askOTP = async (): Promise<boolean> => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/auth/otp/send",
+        { name, phone: phoneNumber }
+      );
+      if (response.data.success) {
+        return true;
+      }
+      return false;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log("Error Occurred" + error);
+      setError("Error sending OTP.");
+      return false;
+    }
+  };
+
+  const handleNext = async () => {
     const isValid = phoneNumber.trim().length >= 10;
     if (isValid) {
-      setError("");
-      setIndex(index + 1);
+      try {
+        const sent = await askOTP();
+        if (sent) {
+          setIndex(index + 1);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        setError("Failed to send OTP. Try again." + err);
+      }
     } else {
       setError("Please enter a valid 10-digit phone number.");
     }
@@ -52,7 +79,7 @@ const Phone = ({ index, setIndex }: IProp) => {
           onClick={handleNext}
           className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
         >
-          Next
+          Send OTP
         </button>
       </div>
     </div>

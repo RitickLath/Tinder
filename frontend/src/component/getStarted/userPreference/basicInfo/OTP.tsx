@@ -1,4 +1,7 @@
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
 
 interface IProp {
   index: number;
@@ -10,17 +13,20 @@ const OTP = ({ index, setIndex }: IProp) => {
   const [inputArray, setInputArray] = useState<string[]>(
     new Array(inputLength).fill("")
   );
+
+  const phone = useSelector((state: RootState) => state.welcome.phone);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
   }, []);
 
   const handleChange = (value: string, index: number) => {
-    if (!/^\d*$/.test(value)) return; // Only allow digits
+    if (!/^\d*$/.test(value)) return;
 
-    const updatedInput = value.slice(-1); // Only 1 digit
+    const updatedInput = value.slice(-1);
     const newArray = [...inputArray];
     newArray[index] = updatedInput;
     setInputArray(newArray);
@@ -39,13 +45,41 @@ const OTP = ({ index, setIndex }: IProp) => {
     }
   };
 
-  const handleSubmit = () => {
+  const verifyOTP = async (otp: string): Promise<boolean> => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/auth/otp/verify",
+        { phone, otp }
+      );
+
+      return response.data.success;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log("Error Occurred:", error);
+      setError(error?.response?.data?.message || "Error verifying OTP.");
+      return false;
+    }
+  };
+
+  const handleSubmit = async () => {
     const isComplete = inputArray.every((val) => val !== "");
+
     if (!isComplete) {
       setError("Please enter all 6 digits of the OTP.");
-    } else {
-      setError("");
+      return;
+    }
+
+    const otp = inputArray.join("");
+    setError("");
+    setLoading(true);
+
+    const isValid = await verifyOTP(otp);
+    setLoading(false);
+
+    if (isValid) {
       setIndex(index + 1);
+    } else {
+      setError("Invalid OTP. Please try again.");
     }
   };
 
@@ -79,13 +113,17 @@ const OTP = ({ index, setIndex }: IProp) => {
         </p>
       </div>
 
-      {/* Button */}
       <div className="w-full flex items-center justify-center min-h-[10dvh]">
         <button
           onClick={handleSubmit}
-          className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
+          disabled={loading}
+          className={`w-full cursor-pointer max-w-[700px] py-3 font-semibold rounded-2xl transition ${
+            loading
+              ? "bg-gray-500"
+              : "bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70]"
+          }`}
         >
-          Submit OTP
+          {loading ? "Verifying..." : "Submit OTP"}
         </button>
       </div>
     </div>

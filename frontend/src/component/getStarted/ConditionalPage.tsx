@@ -34,7 +34,7 @@ const ConditionalPage = () => {
             onClick={() => setIndex(index - 1)}
             className="hover:bg-[#222529] p-2 rounded-xl"
           >
-            <FaArrowLeft className="text-xl" />
+            <FaArrowLeft className="text-xl pl-1" />
           </button>
         )}
         <ProgressBar index={index} />
