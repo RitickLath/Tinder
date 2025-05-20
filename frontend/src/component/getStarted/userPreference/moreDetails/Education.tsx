@@ -19,7 +19,7 @@ const Education = ({ index, setIndex }: IProp) => {
   const [error, setError] = useState("");
 
   const handleNext = () => {
-    if (!school.trim() || !education || !work) {
+    if (!school || !school.trim() || !education || !work) {
       setError("Please fill in all fields before proceeding.");
       return;
     }
