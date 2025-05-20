@@ -1,15 +1,24 @@
-import { useState } from "react";
+// again mismatch may occurs bw frontend and backend data in more worded options
+
 import {
   type IProp,
   drinkingOptions,
   smokingOptions,
   workoutOptions,
 } from "../../../../constants/hardcoded/constants";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
+import { updateField } from "../../../../features/welcome/welcomeSlice";
 
 const LifeStyle = ({ index, setIndex }: IProp) => {
-  const [selectedDrinking, setSelectedDrinking] = useState<string>("");
-  const [selectedSmoking, setSelectedSmoking] = useState<string>("");
-  const [selectedWorkout, setSelectedWorkout] = useState<string>("");
+  // RTK
+  const drink = useSelector((state: RootState) => state.welcome.drinkingHabit);
+
+  const smoking = useSelector((state: RootState) => state.welcome.smokingHabit);
+
+  const workout = useSelector((state: RootState) => state.welcome.workoutHabit);
+
+  const dispatch = useDispatch();
 
   return (
     <div className="w-full">
@@ -30,11 +39,13 @@ const LifeStyle = ({ index, setIndex }: IProp) => {
             {drinkingOptions.map((option, index) => (
               <button
                 key={index}
-                onClick={() => setSelectedDrinking(option)}
+                onClick={() =>
+                  dispatch(
+                    updateField({ field: "drinkingHabit", value: option })
+                  )
+                }
                 className={`${
-                  selectedDrinking === option
-                    ? "border-[#FE5164]"
-                    : "border-[#505965]"
+                  drink === option ? "border-[#FE5164]" : "border-[#505965]"
                 } py-2 px-4 cursor-pointer rounded-full border-2 text-sm font-medium text-white hover:bg-[#222529]`}
               >
                 {option}
@@ -52,11 +63,13 @@ const LifeStyle = ({ index, setIndex }: IProp) => {
             {smokingOptions.map((option, index) => (
               <button
                 key={index}
-                onClick={() => setSelectedSmoking(option)}
+                onClick={() =>
+                  dispatch(
+                    updateField({ field: "smokingHabit", value: option })
+                  )
+                }
                 className={`${
-                  selectedSmoking === option
-                    ? "border-[#FE5164]"
-                    : "border-[#505965]"
+                  smoking === option ? "border-[#FE5164]" : "border-[#505965]"
                 } py-2 px-4 cursor-pointer rounded-full border-2 text-sm font-medium text-white hover:bg-[#222529]`}
               >
                 {option}
@@ -72,11 +85,13 @@ const LifeStyle = ({ index, setIndex }: IProp) => {
             {workoutOptions.map((option, index) => (
               <button
                 key={index}
-                onClick={() => setSelectedWorkout(option)}
+                onClick={() =>
+                  dispatch(
+                    updateField({ field: "workoutHabit", value: option })
+                  )
+                }
                 className={`${
-                  selectedWorkout === option
-                    ? "border-[#FE5164]"
-                    : "border-[#505965]"
+                  workout === option ? "border-[#FE5164]" : "border-[#505965]"
                 } py-2 px-4 cursor-pointer rounded-full border-2 text-sm font-medium text-white hover:bg-[#222529]`}
               >
                 {option}
@@ -99,5 +114,3 @@ const LifeStyle = ({ index, setIndex }: IProp) => {
 };
 
 export default LifeStyle;
-
-// Love Language

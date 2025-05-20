@@ -1,19 +1,16 @@
-import { useState } from "react";
 import {
   LoveLanguageOption,
   type IProp,
 } from "../../../../constants/hardcoded/constants";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
+
+import { updateField } from "../../../../features/welcome/welcomeSlice";
 
 const LoveLanguage = ({ index, setIndex }: IProp) => {
-  const [selected, setSelected] = useState<number[]>([]);
-
-  const handleSelect = (index: number) => {
-    if (selected.includes(index)) {
-      setSelected((prev) => prev.filter((item) => item !== index));
-    } else {
-      setSelected((prev) => [...prev, index]);
-    }
-  };
+  // RTK
+  const love = useSelector((state: RootState) => state.welcome.loveLanguage);
+  const dispatch = useDispatch();
 
   return (
     <div className="w-full">
@@ -28,11 +25,13 @@ const LoveLanguage = ({ index, setIndex }: IProp) => {
           {LoveLanguageOption.map((option, index) => (
             <div
               key={index}
-              onClick={() => handleSelect(index)}
+              onClick={() =>
+                dispatch(
+                  updateField({ field: "loveLanguage", value: option.title })
+                )
+              }
               className={`${
-                selected.includes(index)
-                  ? "border-[#FE5164]"
-                  : "border-[#505965]"
+                love == option.title ? "border-[#FE5164]" : "border-[#505965]"
               } px-4 py-3 cursor-pointer w-full max-w-[600px] lg:max-w-[500px] border-2 mb-2 rounded-lg`}
             >
               <h1 className="font-semibold">{option.title}</h1>

@@ -6,26 +6,26 @@ import type {
 
 // Initial State
 const initialState: WelcomeState = {
-  name: "Ritick",
+  name: "",
   dob: "",
-  gender: "Male",
+  gender: "",
   phone: "",
 
-  sexualOrientation: "Straight",
+  sexualOrientation: "",
   showsexualOrientation: false,
 
-  interestedIn: "Female",
-  lookingFor: "Long-term partner",
+  interestedIn: "",
+  lookingFor: "",
 
   school: "",
-  educationLevel: "Bachelor's Degree",
-  work: "Employed",
+  educationLevel: "",
+  work: "",
 
-  drinkingHabit: "Occasionally",
-  smokingHabit: "Non-smoker",
-  workoutHabit: "Sometimes",
+  drinkingHabit: "",
+  smokingHabit: "",
+  workoutHabit: "",
 
-  loveLanguage: "Words of affirmation",
+  loveLanguage: "",
 
   into: [],
 
@@ -38,14 +38,17 @@ const welcomeSlice = createSlice({
   reducers: {
     updateField: (
       state,
-      action: PayloadAction<{ field: keyof WelcomeState; value: string }>
+      action: PayloadAction<{
+        field: keyof WelcomeState;
+        value: string | boolean;
+      }>
     ) => {
       const { field, value } = action.payload;
 
       // Type narrowing: Avoid array fields here
       if (Array.isArray(state[field])) return;
 
-      (state[field] as string) = value;
+      (state[field] as string | boolean) = value;
     },
 
     updateInto: (state, action: PayloadAction<Into[]>) => {

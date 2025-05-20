@@ -1,8 +1,13 @@
-import { useState } from "react";
 import type { IProp } from "../../../../constants/hardcoded/constants";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
+import { updateField } from "../../../../features/welcome/welcomeSlice";
 
 const Gender = ({ index, setIndex }: IProp) => {
-  const [selected, setSelected] = useState<number>(0);
+  // RTK
+  const gender = useSelector((state: RootState) => state.welcome.gender);
+  const dispatch = useDispatch();
+
   return (
     <div className="w-full">
       <div className="w-full min-h-[75dvh]">
@@ -11,25 +16,31 @@ const Gender = ({ index, setIndex }: IProp) => {
         </h1>
         <div className="flex flex-col space-y-6">
           <button
-            onClick={() => setSelected(1)}
+            onClick={() =>
+              dispatch(updateField({ field: "gender", value: "Male" }))
+            }
             className={`${
-              selected == 1 ? "border-[#FE5164]" : "border-[#505965]"
+              gender == "Male" ? "border-[#FE5164]" : "border-[#505965]"
             } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
           >
-            Man
+            Male
           </button>
           <button
-            onClick={() => setSelected(2)}
+            onClick={() =>
+              dispatch(updateField({ field: "gender", value: "Female" }))
+            }
             className={`${
-              selected == 2 ? "border-[#FE5164]" : "border-[#505965]"
+              gender == "Female" ? "border-[#FE5164]" : "border-[#505965]"
             } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
           >
-            Woman
+            Female
           </button>
           <button
-            onClick={() => setSelected(3)}
+            onClick={() =>
+              dispatch(updateField({ field: "gender", value: "Other" }))
+            }
             className={`${
-              selected == 3 ? "border-[#FE5164]" : "border-[#505965]"
+              gender == "Other" ? "border-[#FE5164]" : "border-[#505965]"
             } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
           >
             Other

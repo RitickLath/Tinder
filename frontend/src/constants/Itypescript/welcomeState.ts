@@ -82,26 +82,26 @@ export interface WelcomeState {
   // Basic info
   phone: string;
   name: string;
-  gender: Gender;
-  dob: string;
+  gender: Gender | "";
+  dob: "";
 
   // Sexual Orientation
-  sexualOrientation: SexualOrientation;
+  sexualOrientation: SexualOrientation | "";
   showsexualOrientation: boolean;
 
   // Interested In
-  interestedIn: "Male" | "Female" | "Everyone";
-  lookingFor: LookingFor;
+  interestedIn: "Man" | "Woman" | "Everyone" | "";
+  lookingFor: LookingFor | "";
 
   // Education and work
   school?: string;
-  educationLevel?: EducationLevel;
-  work: Work;
+  educationLevel?: EducationLevel | "";
+  work: Work | "";
 
   // LifeStyle Habits
-  drinkingHabit: DrinkingHabit;
-  smokingHabit: SmokingHabit;
-  workoutHabit: WorkoutHabit;
+  drinkingHabit: DrinkingHabit | "";
+  smokingHabit: SmokingHabit | "";
+  workoutHabit: WorkoutHabit | "";
 
   // What are you into has to be array of 5
   into: Into[];
@@ -111,5 +111,5 @@ export interface WelcomeState {
 
   // Lifestyle and habits
 
-  loveLanguage: LoveLanguage;
+  loveLanguage: LoveLanguage | "";
 }

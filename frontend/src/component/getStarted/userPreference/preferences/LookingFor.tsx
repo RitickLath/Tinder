@@ -1,11 +1,17 @@
-import { useState } from "react";
+// will create problem in db filling.
+
 import {
   type IProp,
   lookingForOption,
 } from "../../../../constants/hardcoded/constants";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
+import { updateField } from "../../../../features/welcome/welcomeSlice";
 
 const LookingFor = ({ index, setIndex }: IProp) => {
-  const [selected, setSelected] = useState<number | null>(null);
+  // RTK
+  const looking = useSelector((state: RootState) => state.welcome.lookingFor);
+  const dispatch = useDispatch();
 
   return (
     <div className="w-full">
@@ -20,9 +26,15 @@ const LookingFor = ({ index, setIndex }: IProp) => {
           {lookingForOption.map((element, index) => (
             <div
               key={index}
-              onClick={() => setSelected(index)}
+              onClick={() =>
+                dispatch(
+                  updateField({ field: "lookingFor", value: element.title })
+                )
+              }
               className={`${
-                selected === index ? "border-[#FE5164]" : "border-[#505965]"
+                looking === element.title
+                  ? "border-[#FE5164]"
+                  : "border-[#505965]"
               } flex flex-col items-center justify-center text-center cursor-pointer w-full max-w-[200px] h-[120px] border-2 rounded-2xl hover:bg-[#222529] transition`}
             >
               <h1 className="text-xl mb-2">{element.emoji}</h1>

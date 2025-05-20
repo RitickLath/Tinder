@@ -1,5 +1,10 @@
+// need lots of improvement (edge cases)
+
 import { useEffect, useRef, useState } from "react";
 import type { IProp } from "../../../../constants/hardcoded/constants";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
+import { updateField } from "../../../../features/welcome/welcomeSlice";
 
 const DOB = ({ index, setIndex }: IProp) => {
   const [date, setDate] = useState<string>("");
@@ -8,6 +13,9 @@ const DOB = ({ index, setIndex }: IProp) => {
   const dateRef = useRef<HTMLInputElement | null>(null);
   const monthRef = useRef<HTMLInputElement | null>(null);
   const yearRef = useRef<HTMLInputElement | null>(null);
+  // RTK
+  const dob = useSelector((state: RootState) => state.welcome.dob);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dateRef.current?.focus();
@@ -28,7 +36,13 @@ const DOB = ({ index, setIndex }: IProp) => {
     } else if (index == 2) {
       setYear(value.slice(0, 4));
     }
+
+    dispatch(
+      updateField({ field: "dob", value: date + month + value.slice(0, 4) })
+    );
   };
+
+  console.log(dob);
 
   return (
     <div className="w-full">
@@ -38,7 +52,7 @@ const DOB = ({ index, setIndex }: IProp) => {
           <input
             ref={dateRef}
             onChange={(e) => handleChange(e.target.value, 0)}
-            value={date}
+            value={date || dob.slice(0, 2)}
             className="text-center w-[100px] lg:w-[200px] border-[2px] border-[#505965] py-3 px-4 rounded-lg bg-black text-white placeholder-[#B9B9C2] focus:outline-none focus:border-0 focus:ring-2 focus:ring-blue-700 mb-3"
             type="number"
             required
@@ -48,7 +62,7 @@ const DOB = ({ index, setIndex }: IProp) => {
           <input
             ref={monthRef}
             onChange={(e) => handleChange(e.target.value, 1)}
-            value={month}
+            value={month || dob.slice(2, 4)}
             className="text-center w-[100px] lg:w-[200px] border-[2px] border-[#505965] py-3 px-4 rounded-lg bg-black text-white placeholder-[#B9B9C2] focus:outline-none focus:border-0 focus:ring-2 focus:ring-blue-700 mb-3"
             type="number"
             required
@@ -57,7 +71,7 @@ const DOB = ({ index, setIndex }: IProp) => {
           />
           <input
             ref={yearRef}
-            value={year}
+            value={year || dob.slice(4, 8)}
             onChange={(e) => handleChange(e.target.value, 2)}
             className="text-center w-[100px] lg:w-[200px] border-[2px] border-[#505965] py-3 px-4 rounded-lg bg-black text-white placeholder-[#B9B9C2] focus:outline-none focus:border-0 focus:ring-2 focus:ring-blue-700 mb-3"
             type="number"

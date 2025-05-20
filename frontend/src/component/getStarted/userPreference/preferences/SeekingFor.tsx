@@ -1,15 +1,18 @@
-import { useState } from "react";
 import {
   type IProp,
   seekingOptions,
 } from "../../../../constants/hardcoded/constants";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
+import { updateField } from "../../../../features/welcome/welcomeSlice";
 
 const SeekingFor = ({ index, setIndex }: IProp) => {
-  const [selected, setSelected] = useState<number>(-1);
+  // RTK
+  const interested = useSelector(
+    (state: RootState) => state.welcome.interestedIn
+  );
 
-  const handleSelect = (index: number) => {
-    setSelected(index);
-  };
+  const dispatch = useDispatch();
 
   return (
     <div className="w-full">
@@ -21,9 +24,15 @@ const SeekingFor = ({ index, setIndex }: IProp) => {
           {seekingOptions.map((option, index) => (
             <button
               key={index}
-              onClick={() => handleSelect(index)}
+              onClick={() =>
+                dispatch(
+                  updateField({ field: "interestedIn", value: option.title })
+                )
+              }
               className={`${
-                selected == index ? "border-[#FE5164]" : "border-[#505965]"
+                interested == option.title
+                  ? "border-[#FE5164]"
+                  : "border-[#505965]"
               } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
             >
               {option.title}

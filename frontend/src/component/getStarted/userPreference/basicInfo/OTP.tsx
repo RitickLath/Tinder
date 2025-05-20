@@ -16,6 +16,28 @@ const OTP = ({ index, setIndex }: IProp) => {
     inputRefs.current[0]?.focus();
   }, []);
 
+  // const handleClick = async () => {
+  //   if (inputArray.includes("")) return;
+  //   let otp = "";
+  //   for (let i = 0; i < inputArray.length; i++) {
+  //     otp += inputArray[i];
+  //   }
+  //   console.log(otp);
+
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:3000/api/v1/auth/otp/verify",
+  //       { phone: "6209847887", otp }
+  //     );
+
+  //     if (response.data.success) {
+  //       setIndex(index + 1);
+  //     }
+  //   } catch (error: any) {
+  //     console.log(error);
+  //   }
+  // };
+
   const handleChange = (value: string, index: number) => {
     if (!/^\d*$/.test(value)) return; // Only allow digits
 

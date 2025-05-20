@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
+import { updateField } from "../../../../features/welcome/welcomeSlice";
 
 interface IProp {
   index: number;
@@ -6,7 +8,9 @@ interface IProp {
 }
 
 const Phone = ({ index, setIndex }: IProp) => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  // RTK
+  const phoneNumber = useSelector((state: RootState) => state.welcome.phone);
+  const dispatch = useDispatch();
 
   return (
     <div className="w-full">
@@ -21,7 +25,9 @@ const Phone = ({ index, setIndex }: IProp) => {
             type="number"
             required
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) =>
+              dispatch(updateField({ field: "phone", value: e.target.value }))
+            }
             placeholder="Enter your phone number"
             className="flex-grow border-[1px] border-[#505965] bg-black text-white placeholder-[#B9B9C2] py-3 px-4 rounded-lg focus:outline-none focus:border-[1px] focus:border-blue-600"
           />

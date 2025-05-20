@@ -1,5 +1,7 @@
-import { useState } from "react";
 import { SexualOptions } from "../../../../constants/hardcoded/constants";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../../redux/store";
+import { updateField } from "../../../../features/welcome/welcomeSlice";
 
 interface IProp {
   index: number;
@@ -7,16 +9,16 @@ interface IProp {
 }
 
 const SexualOrientation = ({ index, setIndex }: IProp) => {
-  const [selected, setSelected] = useState<number[]>([]);
-  const [showOnProfile, setShowOnProfile] = useState<boolean>(false);
+  // RTK
+  const orientation = useSelector(
+    (state: RootState) => state.welcome.sexualOrientation
+  );
 
-  const handleSelect = (index: number) => {
-    if (selected.includes(index)) {
-      setSelected((prev) => prev.filter((item) => item !== index));
-    } else {
-      setSelected((prev) => [...prev, index]);
-    }
-  };
+  const showOrientation = useSelector(
+    (state: RootState) => state.welcome.showsexualOrientation
+  );
+
+  const dispatch = useDispatch();
 
   return (
     <div className="w-full">
@@ -31,9 +33,16 @@ const SexualOrientation = ({ index, setIndex }: IProp) => {
           {SexualOptions.map((option, index) => (
             <div
               key={index}
-              onClick={() => handleSelect(index)}
+              onClick={() =>
+                dispatch(
+                  updateField({
+                    field: "sexualOrientation",
+                    value: option.title,
+                  })
+                )
+              }
               className={`${
-                selected.includes(index)
+                orientation == option.title
                   ? "border-[#FE5164]"
                   : "border-[#505965]"
               } px-4 py-3 cursor-pointer w-full max-w-[600px] lg:max-w-[500px] border-2 mb-2 rounded-lg`}
@@ -49,8 +58,15 @@ const SexualOrientation = ({ index, setIndex }: IProp) => {
           <input
             type="checkbox"
             id="showOnProfile"
-            checked={showOnProfile}
-            onChange={(e) => setShowOnProfile(e.target.checked)}
+            checked={showOrientation}
+            onChange={(e) =>
+              dispatch(
+                updateField({
+                  field: "showsexualOrientation",
+                  value: e.target.checked,
+                })
+              )
+            }
             className="w-5 h-5 mr-3 accent-[#FE5164] cursor-pointer"
           />
           <label

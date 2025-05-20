@@ -44,9 +44,9 @@ const ConditionalPage = () => {
       <div className="flex-grow flex items-center justify-center">
         {/* Basic Info */}
         {index == 1 && <WelcomeScreen index={index} setIndex={setIndex} />}
-        {index == 2 && <Phone index={index} setIndex={setIndex} />}
-        {index == 3 && <OTP index={index} setIndex={setIndex} />}
-        {index == 4 && <Name index={index} setIndex={setIndex} />}
+        {index == 2 && <Name index={index} setIndex={setIndex} />}
+        {index == 3 && <Phone index={index} setIndex={setIndex} />}
+        {index == 4 && <OTP index={index} setIndex={setIndex} />}
         {index == 5 && <Gender index={index} setIndex={setIndex} />}
         {index == 6 && <DOB index={index} setIndex={setIndex} />}
 
