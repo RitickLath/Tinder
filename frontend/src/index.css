@@ -8,7 +8,8 @@
   scrollbar-width: none;
 }
 body {
-  overscroll-behavior-block: none;
+  overscroll-behavior-block: none; /* Prevents vertical overscroll */
+  overscroll-behavior-inline: none; /* Prevents horizontal overscroll */
 }
 
 /* REMOVE THE ARROW ON INPUT NUMBER */
@@ -17,4 +18,3 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
