@@ -1,3 +1,5 @@
+import type { Into } from "../Itypescript/welcomeState";
+
 export const imagesResponse = [
   {
     id: 1,
@@ -152,7 +154,7 @@ export const LoveLanguageOption = [
   },
 ];
 
-export const interests = [
+export const interests: Into[] = [
   "Food and drinks",
   "Gaming",
   "Going Out",

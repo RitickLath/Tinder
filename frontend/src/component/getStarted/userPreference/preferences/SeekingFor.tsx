@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   type IProp,
   seekingOptions,
@@ -13,6 +14,16 @@ const SeekingFor = ({ index, setIndex }: IProp) => {
   );
 
   const dispatch = useDispatch();
+  const [error, setError] = useState("");
+
+  const handleNext = () => {
+    if (!interested) {
+      setError("Please select who you are interested in.");
+    } else {
+      setError("");
+      setIndex(index + 1);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -21,16 +32,16 @@ const SeekingFor = ({ index, setIndex }: IProp) => {
           Who are you interested in seeing?
         </h1>
         <div className="flex flex-col space-y-6">
-          {seekingOptions.map((option, index) => (
+          {seekingOptions.map((option, idx) => (
             <button
-              key={index}
+              key={idx}
               onClick={() =>
                 dispatch(
                   updateField({ field: "interestedIn", value: option.title })
                 )
               }
               className={`${
-                interested == option.title
+                interested === option.title
                   ? "border-[#FE5164]"
                   : "border-[#505965]"
               } max-w-[600px] py-2 font-semibold text-lg rounded-full border-2 cursor-pointer hover:bg-[#222529]`}
@@ -39,12 +50,13 @@ const SeekingFor = ({ index, setIndex }: IProp) => {
             </button>
           ))}
         </div>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
 
       {/* Next Button */}
       <div className="w-full flex items-center justify-center min-h-[10dvh]">
         <button
-          onClick={() => setIndex(index + 1)}
+          onClick={handleNext}
           className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
         >
           Next

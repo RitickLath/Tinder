@@ -11,42 +11,20 @@ const OTP = ({ index, setIndex }: IProp) => {
     new Array(inputLength).fill("")
   );
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
   }, []);
 
-  // const handleClick = async () => {
-  //   if (inputArray.includes("")) return;
-  //   let otp = "";
-  //   for (let i = 0; i < inputArray.length; i++) {
-  //     otp += inputArray[i];
-  //   }
-  //   console.log(otp);
-
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:3000/api/v1/auth/otp/verify",
-  //       { phone: "6209847887", otp }
-  //     );
-
-  //     if (response.data.success) {
-  //       setIndex(index + 1);
-  //     }
-  //   } catch (error: any) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleChange = (value: string, index: number) => {
     if (!/^\d*$/.test(value)) return; // Only allow digits
 
-    const updatedInput = value.slice(-1); // Ensure only 1 digit
+    const updatedInput = value.slice(-1); // Only 1 digit
     const newArray = [...inputArray];
     newArray[index] = updatedInput;
     setInputArray(newArray);
 
-    // Move focus to next input if value is entered
     if (updatedInput && index < inputLength - 1) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -56,10 +34,18 @@ const OTP = ({ index, setIndex }: IProp) => {
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
-    if (e.key === "Backspace") {
-      if (!inputArray[index] && index > 0) {
-        inputRefs.current[index - 1]?.focus();
-      }
+    if (e.key === "Backspace" && !inputArray[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleSubmit = () => {
+    const isComplete = inputArray.every((val) => val !== "");
+    if (!isComplete) {
+      setError("Please enter all 6 digits of the OTP.");
+    } else {
+      setError("");
+      setIndex(index + 1);
     }
   };
 
@@ -85,14 +71,18 @@ const OTP = ({ index, setIndex }: IProp) => {
             />
           ))}
         </div>
+
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+
         <p className="text-[#B9B9C2]">
           Your profile shows your age, not your birthdate.
         </p>
       </div>
+
       {/* Button */}
       <div className="w-full flex items-center justify-center min-h-[10dvh]">
         <button
-          onClick={() => setIndex(index + 1)}
+          onClick={handleSubmit}
           className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
         >
           Submit OTP

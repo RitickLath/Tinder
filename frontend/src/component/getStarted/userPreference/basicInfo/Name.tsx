@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../redux/store";
 import { updateField } from "../../../../features/welcome/welcomeSlice";
+import { useState } from "react";
 
 interface IProp {
   index: number;
@@ -8,8 +9,20 @@ interface IProp {
 }
 
 const Name = ({ index, setIndex }: IProp) => {
+  // RTK
   const name = useSelector((state: RootState) => state?.welcome.name);
   const dispatch = useDispatch();
+
+  const [error, setError] = useState("");
+
+  const handleNext = () => {
+    if (name.length > 3) {
+      setError("");
+      setIndex(index + 1);
+    } else {
+      setError("Name is must and atleast 4 character lenght.");
+    }
+  };
 
   return (
     <div className="w-full">
@@ -20,6 +33,7 @@ const Name = ({ index, setIndex }: IProp) => {
         <input
           className="w-full max-w-[600px] border-[2px] border-[#505965] py-3 px-4 rounded-lg bg-black text-white placeholder-[#B9B9C2] focus:outline-none focus:border-0 focus:ring-2 focus:ring-blue-700 mb-3"
           type="text"
+          required
           value={name}
           onChange={(e) =>
             dispatch(updateField({ field: "name", value: e.target.value }))
@@ -27,6 +41,8 @@ const Name = ({ index, setIndex }: IProp) => {
           placeholder="Enter first name"
           aria-label="First name"
         />
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+
         <p className="text-[#B9B9C2]">
           This is how it'll appear on your profile.
         </p>
@@ -36,7 +52,7 @@ const Name = ({ index, setIndex }: IProp) => {
       {/*  */}
       <div className="w-full flex items-center justify-center min-h-[10dvh]">
         <button
-          onClick={() => setIndex(index + 1)}
+          onClick={handleNext}
           className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
         >
           Next

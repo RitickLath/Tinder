@@ -1,12 +1,22 @@
+import { useState } from "react";
 import type { IProp } from "../../../../constants/hardcoded/constants";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../redux/store";
 import { updateField } from "../../../../features/welcome/welcomeSlice";
 
 const Gender = ({ index, setIndex }: IProp) => {
-  // RTK
   const gender = useSelector((state: RootState) => state.welcome.gender);
   const dispatch = useDispatch();
+  const [error, setError] = useState("");
+
+  const handleNext = () => {
+    if (!gender) {
+      setError("Please select a gender.");
+    } else {
+      setError("");
+      setIndex(index + 1);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -46,15 +56,18 @@ const Gender = ({ index, setIndex }: IProp) => {
             Other
           </button>
         </div>
+
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+
         <p className="text-[#B9B9C2] mt-4">
           This is how it'll appear on your profile.
         </p>
         <p className="text-[#B9B9C2] font-bold">You can’t change it later.</p>
       </div>
-      {/* Button Next */}
+
       <div className="w-full flex items-center justify-center min-h-[10dvh]">
         <button
-          onClick={() => setIndex(index + 1)}
+          onClick={handleNext}
           className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
         >
           Next

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../redux/store";
 import { updateField } from "../../../../features/welcome/welcomeSlice";
+import { useState } from "react";
 
 interface IProp {
   index: number;
@@ -11,6 +12,18 @@ const Phone = ({ index, setIndex }: IProp) => {
   // RTK
   const phoneNumber = useSelector((state: RootState) => state.welcome.phone);
   const dispatch = useDispatch();
+
+  const [error, setError] = useState("");
+
+  const handleNext = () => {
+    const isValid = phoneNumber.trim().length >= 10;
+    if (isValid) {
+      setError("");
+      setIndex(index + 1);
+    } else {
+      setError("Please enter a valid 10-digit phone number.");
+    }
+  };
 
   return (
     <div className="w-full">
@@ -32,10 +45,11 @@ const Phone = ({ index, setIndex }: IProp) => {
             className="flex-grow border-[1px] border-[#505965] bg-black text-white placeholder-[#B9B9C2] py-3 px-4 rounded-lg focus:outline-none focus:border-[1px] focus:border-blue-600"
           />
         </div>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
       <div className="w-full flex items-center justify-center min-h-[10dvh]">
         <button
-          onClick={() => setIndex(index + 1)}
+          onClick={handleNext}
           className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
         >
           Next

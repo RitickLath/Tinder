@@ -51,9 +51,17 @@ const welcomeSlice = createSlice({
       (state[field] as string | boolean) = value;
     },
 
-    updateInto: (state, action: PayloadAction<Into[]>) => {
+    updateInto: (state, action: PayloadAction<Into>) => {
       // Ensure only up to 5 items in into
-      state.into = action.payload.slice(0, 5);
+      const value  = action.payload;
+
+      if (state.into.includes(value)) {
+        state.into = state.into.filter((ele) => ele !== value);
+      } else {
+        if (state.into.length < 5) {
+          state.into = [...state.into, value];
+        }
+      }
     },
 
     updateBlockedContacts: (state, action: PayloadAction<string[]>) => {
