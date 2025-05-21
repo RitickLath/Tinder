@@ -179,8 +179,8 @@ enum Interests {
 // interested and rejected are first impression
 
 enum Status {
-  ACCEPTED @map("Match")
-  IGNORED @map("Not Matched")
-  REJECTED @map("Rejected")
-  INTERESTED @map("Interested")
+  Matched
+  NotMatched
+  Rejected
+  Interested
 }

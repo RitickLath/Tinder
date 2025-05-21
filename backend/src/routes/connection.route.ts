@@ -5,7 +5,7 @@ import {
   rejectedController,
 } from "../controllers/connection.controller";
 
-const connectionRouter = express.Router();
+export const connectionRouter = express.Router();
 
 connectionRouter.post(
   "/send/rejected/:userId",

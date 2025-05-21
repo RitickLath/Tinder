@@ -8,6 +8,7 @@ import cors from "cors";
 import { PrismaClient } from "../src/generated/prisma";
 import { AuthRouter } from "./routes/auth.route";
 import { ProfileRouter } from "./routes/profile.route";
+import { connectionRouter } from "./routes/connection.route";
 
 dotenv.config();
 
@@ -23,3 +24,4 @@ app.use("/api/v1/auth", AuthRouter);
 
 app.use("/api/v1/profile", ProfileRouter);
 
+app.use("/api/v1/connection", connectionRouter);
