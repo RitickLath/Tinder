@@ -48,132 +48,63 @@ model Otp {
 model Preference {
   id                   Int                @id @default(autoincrement())
   gender               Gender
-  birthDate            DateTime
+  birthDate            String
   sexualOrientation    SexualOrientation 
   showSexualOrientation Boolean         
   interestedIn         InterestedIn     
-  lookingFor           LookingFor       
+  lookingFor           String       
   school               String?
-  highestEducation     HighestEducation
-  work                 Work            
+  highestEducation     String
+  work                 String            
   drink                Drink           
-  smoke                Smoke           
+  smoke                String           
   workout              Workout         
-  loveLanguage         LoveLanguage
-  into                 Interests[]
+  loveLanguage         String
+  into                 String[]
   blocked_contacts     String[]
 
   userId               Int                @unique
   user                 User               @relation(fields: [userId], references: [id])
 }
 
+// birthDate have to be date will modify later
 //   <--------------------------  ENUMS  -------------------------->
 
 enum Gender {
-  MALE @map("Male")
-  FEMALE @map("Female")
-  OTHER @map("Other")
+  Male
+  Female
+  Other
 }
 
 enum SexualOrientation {
-  ASEXUAL @map("Asexual")
-  BISEXUAL @map("Bisexual")
-  GAY @map("Gay")
-  LESBIAN @map("Lesbian")
-  PANSEXUAL @map("Pansexual")
-  QUEER @map("Queer")
-  STRAIGHT @map("Straight")
+  Asexual
+  Bisexual
+  Gay
+  Lesbian
+  Pansexual
+  Queer
+  Straight
 }
 
 enum InterestedIn {
-  MALE @map("Male")
-  FEMALE @map("Female")
-  EVERYONE @map("Everyone")
+  Male
+  Female
+  Everyone
 }
 
-enum LookingFor {
-  LONG_TERM_PARTNER @map("Long-term partner")
-  LONG_TERM_OPEN_TO_SHORT @map("Long-term, open to short")
-  SHORT_TERM_OPEN_TO_LONG @map("Short-term, open to Long")
-  SHORT_TERM_FUN @map("Short-term fun")
-  NEW_FRIENDS @map("New friends")
-  STILL_FIGURING_IT_OUT @map("Still figuring it out")
-}
-
-enum HighestEducation {
-  HIGH_SCHOOL @map("High School")
-  BACHELORS_DEGREE @map("Bachelors Degree")
-  MASTERS_DEGREE @map("Masters Degree")
-  PHD @map("PhD")
-  OTHER @map("Other")
-}
-
-enum Work {
-  STUDENT @map("Student")
-  EMPLOYED @map("Employed")
-  SELF_EMPLOYED @map("Self-Employed")
-  UNEMPLOYED @map("Unemployed")
-  RETIRED @map("Retired")
-  PREFER_NOT_TO_SAY @map("Prefer not to say")
-}
 
 enum Drink {
-  NEVER @map("Never")
-  OCCASIONALLY @map("Occasionally")
-  SOCIALLY @map("Socially")
-  REGULARLY @map("Regularly")
-}
-
-enum Smoke {
-  SOCIAL_SMOKER @map("Social smoker")
-  SMOKING_WHEN_DRINKING @map("Smoking When drinking")
-  NON_SMOKER @map("Non-smoker")
-  SMOKER @map("Smoker")
-  TRYING_TO_QUIT @map("Trying to quit")
+  Never
+  Occasionally
+  Socially
+  Regularly
 }
 
 enum Workout {
-  EVERYDAY @map("Everyday")
-  OFTEN @map("Often")
-  SOMETIMES @map("Sometimes")
-  NEVER @map("Never")
-}
-
-enum LoveLanguage {
-  PHYSICAL_TOUCH @map("Physical touch")
-  WORDS_OF_AFFIRMATION @map("Words of affirmation")
-  QUALITY_TIME @map("Quality time")
-  GIFTS @map("Gifts")
-  ACTS_OF_SERVICE @map("Acts of service")
-}
-
-enum Interests {
-  FOOD_AND_DRINKS @map("Food and drinks")
-  GAMING @map("Gaming")
-  GOING_OUT @map("Going Out")
-  MUSIC @map("Music")
-  OUTDOOR_AND_ADVENTURE @map("Outdoor and adventure")
-  SOCIAL_AND_CONTENT @map("Social and content")
-  SPORTS_AND_FITNESS @map("Sports and fitness")
-  STAYING_IN @map("Staying in")
-  TV_AND_MOVIES @map("TV and movies")
-  VALUES_AND_CAUSES @map("Values and causes")
-  WELLNESS_AND_LIFESTYLE @map("Wellness and lifestyle")
-  ART_AND_CULTURE @map("Art & Culture")
-  READING @map("Reading")
-  TRAVELING @map("Traveling")
-  PHOTOGRAPHY @map("Photography")
-  FASHION_AND_STYLE @map("Fashion & Style")
-  PETS_AND_ANIMALS @map("Pets & Animals")
-  TECHNOLOGY_AND_GADGETS @map("Technology & Gadgets")
-  MINDFULNESS_AND_MEDITATION @map("Mindfulness & Meditation")
-  DIY_AND_CRAFTS @map("DIY & Crafts")
-  BOARD_GAMES_AND_PUZZLES @map("Board Games & Puzzles")
-  COOKING_AND_BAKING @map("Cooking & Baking")
-  LEARNING_AND_EDUCATION @map("Learning & Education")
-  CARS_AND_MOTORCYCLES @map("Cars & Motorcycles")
-  FINANCE_AND_INVESTING @map("Finance & Investing")
-  COMEDY_AND_MEMES @map("Comedy & Memes")
+  Everyday
+  Often
+  Sometimes
+  Never
 }
 
 // interested and rejected are first impression
