@@ -9,6 +9,8 @@ import { PrismaClient } from "../src/generated/prisma";
 import { AuthRouter } from "./routes/auth.route";
 import { ProfileRouter } from "./routes/profile.route";
 import { connectionRouter } from "./routes/connection.route";
+import { upload } from "./middlewares/localUpload";
+import { uploader } from "./utils/cloudinaryUpload";
 
 dotenv.config();
 
@@ -32,3 +34,18 @@ app.use("/api/v1/profile", ProfileRouter);
 
 // REQUESTS: send/rejected/:userId && send/interested/:userId
 app.use("/api/v1/connection", connectionRouter);
+
+// Upload image
+app.post("/upload", upload.single("file"), async (req, res) => {
+  const localPath = req.file?.path;
+
+  if (!localPath) {
+    res.json({ success: false, message: "Cant Upload" });
+    return;
+  }
+  const response = await uploader(localPath);
+
+  res
+    .status(201)
+    .json({ success: true, message: "Uploaded", data: response?.url });
+});
