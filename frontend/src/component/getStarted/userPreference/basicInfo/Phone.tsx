@@ -21,7 +21,8 @@ const Phone = ({ index, setIndex }: IProp) => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/v1/auth/otp/send",
-        { name, phone: phoneNumber }
+        { name, phone: phoneNumber },
+        { withCredentials: true }
       );
       if (response.data.success) {
         return true;

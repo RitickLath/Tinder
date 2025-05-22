@@ -7,23 +7,23 @@ import type {
 // Initial State
 const initialState: WelcomeState = {
   name: "",
-  dob: "",
+  birthDate: "",
   gender: "",
   phone: "",
 
   sexualOrientation: "",
-  showsexualOrientation: false,
+  showSexualOrientation: false,
 
   interestedIn: "",
   lookingFor: "",
 
   school: "",
-  educationLevel: "",
+  highestEducation: "",
   work: "",
 
-  drinkingHabit: "",
-  smokingHabit: "",
-  workoutHabit: "",
+  drink: "",
+  smoke: "",
+  workout: "",
 
   loveLanguage: "",
 
@@ -53,7 +53,7 @@ const welcomeSlice = createSlice({
 
     updateInto: (state, action: PayloadAction<Into>) => {
       // Ensure only up to 5 items in into
-      const value  = action.payload;
+      const value = action.payload;
 
       if (state.into.includes(value)) {
         state.into = state.into.filter((ele) => ele !== value);

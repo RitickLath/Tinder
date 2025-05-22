@@ -83,25 +83,25 @@ export interface WelcomeState {
   phone: string;
   name: string;
   gender: Gender | "";
-  dob: "";
+  birthDate: "";
 
   // Sexual Orientation
   sexualOrientation: SexualOrientation | "";
-  showsexualOrientation: boolean;
+  showSexualOrientation: boolean;
 
   // Interested In
-  interestedIn: "Man" | "Woman" | "Everyone" | "";
+  interestedIn: "Man" | "Female" | "Everyone" | "";
   lookingFor: LookingFor | "";
 
   // Education and work
   school?: string;
-  educationLevel?: EducationLevel | "";
+  highestEducation?: EducationLevel | "";
   work: Work | "";
 
   // LifeStyle Habits
-  drinkingHabit: DrinkingHabit | "";
-  smokingHabit: SmokingHabit | "";
-  workoutHabit: WorkoutHabit | "";
+  drink: DrinkingHabit | "";
+  smoke: SmokingHabit | "";
+  workout: WorkoutHabit | "";
 
   // What are you into has to be array of 5
   into: Into[];

@@ -73,7 +73,7 @@ export const SexualOptions = [
 
 export const seekingOptions = [
   { title: "Man" },
-  { title: "Woman" },
+  { title: "Female" },
   { title: "Everyone" },
 ];
 
@@ -91,7 +91,7 @@ export interface ILookingForOption {
   title: string;
 }
 
-export const educationLevels: string[] = [
+export const highestEducations: string[] = [
   "High School",
   "Bachelor's Degree",
   "Master's Degree",

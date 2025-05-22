@@ -1,6 +1,6 @@
 import {
   type IProp,
-  educationLevels,
+  highestEducations,
   workOptions,
 } from "../../../../constants/hardcoded/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import { useState } from "react";
 const Education = ({ index, setIndex }: IProp) => {
   const school = useSelector((state: RootState) => state.welcome.school);
   const education = useSelector(
-    (state: RootState) => state.welcome.educationLevel
+    (state: RootState) => state.welcome.highestEducation
   );
   const work = useSelector((state: RootState) => state.welcome.work);
   const dispatch = useDispatch();
@@ -49,11 +49,13 @@ const Education = ({ index, setIndex }: IProp) => {
           What's your highest education level?
         </h1>
         <div className="flex flex-wrap gap-3 mb-10 max-w-[600px]">
-          {educationLevels.map((level, idx) => (
+          {highestEducations.map((level, idx) => (
             <button
               key={idx}
               onClick={() =>
-                dispatch(updateField({ field: "educationLevel", value: level }))
+                dispatch(
+                  updateField({ field: "highestEducation", value: level })
+                )
               }
               className={`${
                 education === level ? "border-[#FE5164]" : "border-[#505965]"

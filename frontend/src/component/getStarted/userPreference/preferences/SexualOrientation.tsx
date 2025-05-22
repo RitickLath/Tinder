@@ -13,7 +13,7 @@ const SexualOrientation = ({ index, setIndex }: IProp) => {
   );
 
   const showOrientation = useSelector(
-    (state: RootState) => state.welcome.showsexualOrientation
+    (state: RootState) => state.welcome.showSexualOrientation
   );
 
   const dispatch = useDispatch();
@@ -70,7 +70,7 @@ const SexualOrientation = ({ index, setIndex }: IProp) => {
             onChange={(e) =>
               dispatch(
                 updateField({
-                  field: "showsexualOrientation",
+                  field: "showSexualOrientation",
                   value: e.target.checked,
                 })
               )

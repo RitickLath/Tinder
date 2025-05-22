@@ -13,8 +13,9 @@ const DOB = ({ index, setIndex }: IProp) => {
   const dateRef = useRef<HTMLInputElement | null>(null);
   const monthRef = useRef<HTMLInputElement | null>(null);
   const yearRef = useRef<HTMLInputElement | null>(null);
+  
   // RTK
-  const dob = useSelector((state: RootState) => state.welcome.dob);
+  const birthDate = useSelector((state: RootState) => state.welcome.birthDate);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,11 +39,14 @@ const DOB = ({ index, setIndex }: IProp) => {
     }
 
     dispatch(
-      updateField({ field: "dob", value: date + month + value.slice(0, 4) })
+      updateField({
+        field: "birthDate",
+        value: date + month + value.slice(0, 4),
+      })
     );
   };
 
-  console.log(dob);
+  console.log(birthDate);
 
   return (
     <div className="w-full">
@@ -52,7 +56,7 @@ const DOB = ({ index, setIndex }: IProp) => {
           <input
             ref={dateRef}
             onChange={(e) => handleChange(e.target.value, 0)}
-            value={date || dob.slice(0, 2)}
+            value={date || birthDate.slice(0, 2)}
             className="text-center w-[100px] lg:w-[200px] border-[2px] border-[#505965] py-3 px-4 rounded-lg bg-black text-white placeholder-[#B9B9C2] focus:outline-none focus:border-0 focus:ring-2 focus:ring-blue-700 mb-3"
             type="number"
             required
@@ -62,7 +66,7 @@ const DOB = ({ index, setIndex }: IProp) => {
           <input
             ref={monthRef}
             onChange={(e) => handleChange(e.target.value, 1)}
-            value={month || dob.slice(2, 4)}
+            value={month || birthDate.slice(2, 4)}
             className="text-center w-[100px] lg:w-[200px] border-[2px] border-[#505965] py-3 px-4 rounded-lg bg-black text-white placeholder-[#B9B9C2] focus:outline-none focus:border-0 focus:ring-2 focus:ring-blue-700 mb-3"
             type="number"
             required
@@ -71,7 +75,7 @@ const DOB = ({ index, setIndex }: IProp) => {
           />
           <input
             ref={yearRef}
-            value={year || dob.slice(4, 8)}
+            value={year || birthDate.slice(4, 8)}
             onChange={(e) => handleChange(e.target.value, 2)}
             className="text-center w-[100px] lg:w-[200px] border-[2px] border-[#505965] py-3 px-4 rounded-lg bg-black text-white placeholder-[#B9B9C2] focus:outline-none focus:border-0 focus:ring-2 focus:ring-blue-700 mb-3"
             type="number"

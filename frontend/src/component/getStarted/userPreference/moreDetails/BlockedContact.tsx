@@ -1,10 +1,35 @@
+import axios from "axios";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import type { RootState } from "../../../../redux/store";
 
 const BlockedContact = () => {
   const [blockedNumbers, setBlockedNumbers] = useState<string[]>([]);
   const [inputNumber, setInputNumber] = useState<string>("");
   const navigate = useNavigate();
+
+  // RTK
+  const allData = useSelector((state: RootState) => state.welcome);
+  console.log(allData);
+
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/auth/signup",
+        { ...allData, blocked_contacts: blockedNumbers },
+        { withCredentials: true }
+      );
+      if (response.data.success) {
+        navigate("/app/recs");
+      }
+      console.log("");
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   const handleAddNumber = () => {
     if (inputNumber.trim() !== "" && !blockedNumbers.includes(inputNumber)) {
@@ -65,10 +90,10 @@ const BlockedContact = () => {
       {/* Next Button */}
       <div className="w-full flex items-center justify-center min-h-[10dvh]">
         <button
-          onClick={() => navigate("/app/recs")}
+          onClick={handleSignup}
           className="w-full cursor-pointer max-w-[700px] bg-gradient-to-b from-[#FC5F70] to-[#E419BB] hover:from-[#E419BB] hover:to-[#FC5F70] py-3 font-semibold rounded-2xl transition"
         >
-          Next
+          Sign up
         </button>
       </div>
     </div>

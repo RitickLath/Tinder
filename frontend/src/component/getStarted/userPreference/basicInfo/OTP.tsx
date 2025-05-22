@@ -49,11 +49,12 @@ const OTP = ({ index, setIndex }: IProp) => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/v1/auth/otp/verify",
-        { phone, otp }
+        { phone, otp },
+        { withCredentials: true }
       );
 
       return response.data.success;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log("Error Occurred:", error);
       setError(error?.response?.data?.message || "Error verifying OTP.");

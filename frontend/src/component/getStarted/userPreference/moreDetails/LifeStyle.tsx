@@ -11,9 +11,9 @@ import { useState } from "react";
 
 const LifeStyle = ({ index, setIndex }: IProp) => {
   // RTK
-  const drink = useSelector((state: RootState) => state.welcome.drinkingHabit);
-  const smoking = useSelector((state: RootState) => state.welcome.smokingHabit);
-  const workout = useSelector((state: RootState) => state.welcome.workoutHabit);
+  const drink = useSelector((state: RootState) => state.welcome.drink);
+  const smoking = useSelector((state: RootState) => state.welcome.smoke);
+  const workout = useSelector((state: RootState) => state.welcome.workout);
 
   const dispatch = useDispatch();
 
@@ -48,9 +48,7 @@ const LifeStyle = ({ index, setIndex }: IProp) => {
               <button
                 key={idx}
                 onClick={() =>
-                  dispatch(
-                    updateField({ field: "drinkingHabit", value: option })
-                  )
+                  dispatch(updateField({ field: "drink", value: option }))
                 }
                 className={`${
                   drink === option ? "border-[#FE5164]" : "border-[#505965]"
@@ -72,9 +70,7 @@ const LifeStyle = ({ index, setIndex }: IProp) => {
               <button
                 key={idx}
                 onClick={() =>
-                  dispatch(
-                    updateField({ field: "smokingHabit", value: option })
-                  )
+                  dispatch(updateField({ field: "smoke", value: option }))
                 }
                 className={`${
                   smoking === option ? "border-[#FE5164]" : "border-[#505965]"
@@ -94,9 +90,7 @@ const LifeStyle = ({ index, setIndex }: IProp) => {
               <button
                 key={idx}
                 onClick={() =>
-                  dispatch(
-                    updateField({ field: "workoutHabit", value: option })
-                  )
+                  dispatch(updateField({ field: "workout", value: option }))
                 }
                 className={`${
                   workout === option ? "border-[#FE5164]" : "border-[#505965]"
