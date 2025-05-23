@@ -11,7 +11,6 @@ interface IProp {
 
 const Phone = ({ index, setIndex }: IProp) => {
   // RTK
-  const name = useSelector((state: RootState) => state.welcome.name);
   const phoneNumber = useSelector((state: RootState) => state.welcome.phone);
   const dispatch = useDispatch();
 
@@ -21,12 +20,13 @@ const Phone = ({ index, setIndex }: IProp) => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/v1/auth/otp/send",
-        { name, phone: phoneNumber },
+        { phone: phoneNumber, mode: "signup" },
         { withCredentials: true }
       );
       if (response.data.success) {
         return true;
       }
+      setError(response.data?.message);
       return false;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -37,7 +37,8 @@ const Phone = ({ index, setIndex }: IProp) => {
   };
 
   const handleNext = async () => {
-    const isValid = phoneNumber.trim().length >= 10;
+    const isValid = /^(\+91)?[6-9]\d{9}$/.test(phoneNumber.trim());
+
     if (isValid) {
       try {
         const sent = await askOTP();
@@ -63,7 +64,7 @@ const Phone = ({ index, setIndex }: IProp) => {
         <div className="flex items-center gap-4 max-w-[600px]">
           {/* Phone Number Input */}
           <input
-            type="number"
+            type="tel"
             required
             value={phoneNumber}
             onChange={(e) =>

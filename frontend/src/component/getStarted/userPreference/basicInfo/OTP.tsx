@@ -49,7 +49,7 @@ const OTP = ({ index, setIndex }: IProp) => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/v1/auth/otp/verify",
-        { phone, otp },
+        { phone, otp, mode: "signup" },
         { withCredentials: true }
       );
 
