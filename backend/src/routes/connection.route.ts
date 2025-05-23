@@ -5,15 +5,15 @@ import {
   rejectedController,
 } from "../controllers/connection.controller";
 
-export const connectionRouter = express.Router();
+export const ConnectionRouter = express.Router();
 
-connectionRouter.post(
+ConnectionRouter.post(
   "/send/rejected/:userId",
   authMiddleware,
   rejectedController
 );
 
-connectionRouter.post(
+ConnectionRouter.post(
   "/send/interested/:userId",
   authMiddleware,
   interestedController

@@ -1,6 +1,6 @@
 import express from "express";
 import { categoryController } from "../controllers/category.controller";
 
-export const categoryRoute = express.Router();
+export const CategoryRoute = express.Router();
 
-categoryRoute.post("/:category", categoryController);
+CategoryRoute.post("/:category", categoryController);

@@ -6,13 +6,15 @@ import cors from "cors";
 //import { PrismaClient } from "@prisma/client";
 
 import { PrismaClient } from "../src/generated/prisma";
+
 import { AuthRouter } from "./routes/auth.route";
 import { ProfileRouter } from "./routes/profile.route";
-import { connectionRouter } from "./routes/connection.route";
-import { upload } from "./middlewares/localUpload";
-import { uploader } from "./utils/cloudinaryUpload";
+import { ConnectionRouter } from "./routes/connection.route";
+import { CategoryRoute } from "./routes/category.route";
+import { UploadMedia } from "./routes/uploadMedia.route";
+import { FeedRouter } from "./routes/feed.route";
+
 import { authMiddleware } from "./middlewares";
-import { categoryRoute } from "./routes/category.route";
 
 dotenv.config();
 
@@ -29,6 +31,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParsar());
 
+// Protected Route authentications
 app.get("/api/v1/authenticated", authMiddleware, (req, res) => {
   res.status(201).json({ status: true, message: "Allowed" });
 });
@@ -36,26 +39,17 @@ app.get("/api/v1/authenticated", authMiddleware, (req, res) => {
 // REQUESTS: otp/send && otp/verify && signup && signin && signout
 app.use("/api/v1/auth", AuthRouter);
 
-//
+// Profile
 app.use("/api/v1/profile", ProfileRouter);
 
 // REQUESTS: send/rejected/:userId && send/interested/:userId
-app.use("/api/v1/connection", connectionRouter);
+app.use("/api/v1/connection", ConnectionRouter);
 
 // Upload image
-app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
-  const localPath = req.file?.path;
+app.post("/api/v1/upload", UploadMedia);
 
-  if (!localPath) {
-    res.json({ success: false, message: "Cant Upload" });
-    return;
-  }
-  const response = await uploader(localPath);
+// Show feed based on category
+app.use("/api/v1/category", authMiddleware, CategoryRoute);
 
-  res
-    .status(201)
-    .json({ success: true, message: "Uploaded", data: response?.url });
-});
-
-// Show feed
-app.use("/api/v1/category", authMiddleware, categoryRoute);
+// Show Feed
+app.use("/api/v1/feed", authMiddleware, FeedRouter);
