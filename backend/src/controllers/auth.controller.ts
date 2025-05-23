@@ -7,18 +7,28 @@ const JWT_SECRET = process.env.JWT_SECRET || "YOUR_DEV_SECRET";
 // We will add the middleware to check is the user have already made a request for OTP. (Rate Limiter maybe)
 export const OtpSent = async (req: Request, res: Response) => {
   // 1. Extract phone number, name from request body.
-  const { phone, name } = req.body;
+  const { phone, mode } = req.body;
 
   try {
     // 2. Validate if phone number is present.
-    if (!phone && !name) {
+    if (!phone || !mode) {
       res.status(400).json({
         success: false,
-        message: "Phone Number and Name are required.",
+        message: "Phone Number and mode are required.",
       });
       return;
     }
-    // 3. Validate if phone number is in correct format (regex/length).
+
+    // 3. Correct mode validation logic
+    if (mode !== "signup" && mode !== "signin") {
+      res.status(400).json({
+        success: false,
+        message: "Invalid Mode Type.",
+      });
+      return;
+    }
+
+    // 4. Validate if phone number is in correct format (regex/length).
     const phoneRegex = /^(\+91)?[6-9]\d{9}$/;
     if (!phoneRegex.test(phone)) {
       res.status(400).json({
@@ -28,19 +38,40 @@ export const OtpSent = async (req: Request, res: Response) => {
       return;
     }
 
-    // 4. Generate a 6-digit OTP.
+    // 5. Check if user exists with the given phone number.
+    const userExists = await db.user.findFirst({ where: { phone: phone } });
+
+    // 6. If user Exists but made signup request response status false.
+    if (userExists && mode == "signup") {
+      res.status(400).json({
+        success: false,
+        message: "User Already Exists. Please Login.",
+      });
+      return;
+    }
+
+    // 7. If user doesn't Exists but made signin request response status false.
+    if (!userExists && mode == "signin") {
+      res.status(400).json({
+        status: false,
+        message: "User Doesn't Exists. Please Signup.",
+      });
+      return;
+    }
+
+    // 8. Generate a 6-digit OTP.
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // 5. Calculate OTP expiration time 7 minute from now ( thala for the reason).
+    // 9. Calculate OTP expiration time 7 minute from now ( thala for the reason).
     const expiredAt = new Date();
     expiredAt.setMinutes(expiredAt.getMinutes() + 7);
 
-    // 6. Save the OTP and expiration time in the database (upsert if exists).
+    // 10. Save the OTP and expiration time in the database (upsert if exists).
     const OTPCreated = await db.otp.create({
       data: { phone, code: otp, expiredAt },
     });
 
-    // 6. Send the OTP to the user's phone
+    // 11. Send the OTP to the user's phone
     // TODO: Will Add SMS Service.
 
     res.status(200).json({
@@ -62,18 +93,27 @@ export const OtpSent = async (req: Request, res: Response) => {
 export const otpVerify = async (req: Request, res: Response) => {
   try {
     // 1. Extract phone number and OTP from request body.
-    const { phone, otp } = req.body;
+    const { phone, otp, mode } = req.body;
 
     // 2. Validate if both phone number and OTP are provided.
-    if (!phone || !otp) {
+    if (!phone || !otp || !mode) {
       res.status(400).json({
         success: false,
-        message: "Phone Number and OTP are required.",
+        message: "Phone Number, OTP and mode is required.",
       });
       return;
     }
 
-    // 3. Validate OTP format (should be 6-digit).
+    // 3. Check mode type
+    if (mode != "signup" && mode != "signin") {
+      res.status(400).json({
+        success: false,
+        message: "Invalid Mode Type.",
+      });
+      return;
+    }
+
+    // 4. Validate OTP format (should be 6-digit).
     if (otp.length !== 6) {
       res.status(400).json({
         success: false,
@@ -82,10 +122,10 @@ export const otpVerify = async (req: Request, res: Response) => {
       return;
     }
 
-    // 4. Fetch OTP record from the database using phone number.
+    // 5. Fetch OTP record from the database using phone number.
     const OriginalOTP = await db.otp.findFirst({ where: { phone } });
 
-    // 5. If OTP record not found, respond with error success false.
+    // 6. If OTP record not found, respond with error success false.
     if (!OriginalOTP) {
       res.status(401).json({
         success: false,
@@ -94,7 +134,7 @@ export const otpVerify = async (req: Request, res: Response) => {
       return;
     }
 
-    // 6. Check if OTP is expired based on expiration time.
+    // 7. Check if OTP is expired based on expiration time.
     if (new Date() > OriginalOTP.expiredAt) {
       await db.otp.deleteMany({ where: { phone } });
       res.status(401).json({
@@ -104,7 +144,7 @@ export const otpVerify = async (req: Request, res: Response) => {
       return;
     }
 
-    // 7. Compare user-entered OTP with OTP from database.
+    // 8. Compare user-entered OTP with OTP from database.
     // 8. If OTP is incorrect, respond with error message and status false.
     if (otp !== OriginalOTP.code) {
       res.status(400).json({
@@ -114,17 +154,34 @@ export const otpVerify = async (req: Request, res: Response) => {
       return;
     }
 
-    // 9. If OTP is correct, generate JWT token for the user.
-    const token = jwt.sign({ phone }, JWT_SECRET, {
-      expiresIn: "7m", // 5 minutes
-    }); // Expires after 7 minutes.
+    // 9. Generate the token and cookies based on mode
+    let token;
+    if (mode === "signup") {
+      // Short-lived token to complete signup later
+      token = jwt.sign({ phone }, JWT_SECRET, { expiresIn: "7m" });
 
-    // Add the cookie named authToken with 5 min. expiry (Short Lived Cookie)
-    res.cookie("authToken", token, {
-      httpOnly: true,
-      //secure: true // only HTTPS in prod
-      maxAge: 5 * 60 * 1000, // 5 minutes
-    });
+      res.cookie("authToken", token, {
+        httpOnly: true,
+        maxAge: 7 * 60 * 1000, // 7 minutes
+      });
+    } else if (mode === "signin") {
+      // Long-lived token for session
+      const user = await db.user.findFirst({ where: { phone } });
+      if (!user) {
+        res.status(201).json({
+          status: false,
+          message: "Please signup user doesn't. exixts",
+        });
+      }
+      token = jwt.sign({ phone, id: user?.id }, JWT_SECRET, {
+        expiresIn: "7d",
+      });
+
+      res.cookie("auth", token, {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+    }
 
     // 10. Delete the OTP record from database (one-time use).
     await db.otp.deleteMany({ where: { phone } });
@@ -298,71 +355,6 @@ export const signup = async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error("Error during signup:", error.message);
     res.status(500).json({ status: false, message: "Internal server error." });
-  }
-};
-
-export const signin = async (req: Request, res: Response) => {
-  try {
-    const { authToken } = req.cookies;
-
-    // 1. Verify the JWT token. (Proof that user has passed OTP verification)
-    if (!authToken) {
-      return res
-        .status(401)
-        .json({ status: false, message: "Token is required." });
-    }
-
-    let tokenValid;
-    try {
-      tokenValid = jwt.verify(authToken, JWT_SECRET);
-    } catch (err) {
-      return res
-        .status(401)
-        .json({ status: false, message: "Token not valid or expired." });
-    }
-
-    const payload = jwt.decode(authToken) as { phone: string };
-    const phone = payload?.phone;
-
-    if (!phone) {
-      return res
-        .status(400)
-        .json({ status: false, message: "Invalid token payload." });
-    }
-
-    // 2. Check if user exists with given phone number
-    const getUser = await db.user.findFirst({ where: { phone } });
-
-    if (!getUser) {
-      return res.status(404).json({
-        status: false,
-        message: "User not found with the provided phone number.",
-      });
-    }
-
-    // 3. Generate a new long-lived session token
-    const newToken = jwt.sign({ phone, id: getUser.id }, JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    res.clearCookie("authToken", { httpOnly: true });
-    // 4. Set new auth cookie
-    res.cookie("auth", newToken, {
-      httpOnly: true,
-      // secure: true, // Enable in production with HTTPS
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
-
-    return res.status(200).json({
-      status: true,
-      message: "User logged in successfully.",
-      token: newToken,
-    });
-  } catch (error: any) {
-    console.error("Login error:", error.message);
-    return res
-      .status(500)
-      .json({ status: false, message: "Internal server error." });
   }
 };
 

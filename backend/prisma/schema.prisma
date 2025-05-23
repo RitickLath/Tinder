@@ -62,6 +62,7 @@ model Preference {
   loveLanguage         String
   into                 String[]
   blocked_contacts     String[]
+  imageurl             String[]           @default([""])
 
   userId               Int                @unique
   user                 User               @relation(fields: [userId], references: [id])

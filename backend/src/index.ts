@@ -11,6 +11,8 @@ import { ProfileRouter } from "./routes/profile.route";
 import { connectionRouter } from "./routes/connection.route";
 import { upload } from "./middlewares/localUpload";
 import { uploader } from "./utils/cloudinaryUpload";
+import { authMiddleware } from "./middlewares";
+import { categoryRoute } from "./routes/category.route";
 
 dotenv.config();
 
@@ -27,16 +29,21 @@ app.use(
 app.use(express.json());
 app.use(cookieParsar());
 
+app.get("/api/v1/authenticated", authMiddleware, (req, res) => {
+  res.status(201).json({ status: true, message: "Allowed" });
+});
+
 // REQUESTS: otp/send && otp/verify && signup && signin && signout
 app.use("/api/v1/auth", AuthRouter);
 
+//
 app.use("/api/v1/profile", ProfileRouter);
 
 // REQUESTS: send/rejected/:userId && send/interested/:userId
 app.use("/api/v1/connection", connectionRouter);
 
 // Upload image
-app.post("/upload", upload.single("file"), async (req, res) => {
+app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
   const localPath = req.file?.path;
 
   if (!localPath) {
@@ -49,3 +56,6 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     .status(201)
     .json({ success: true, message: "Uploaded", data: response?.url });
 });
+
+// Show feed
+app.use("/api/v1/category", authMiddleware, categoryRoute);

@@ -2,7 +2,6 @@ import express from "express";
 import {
   OtpSent,
   otpVerify,
-  signin,
   signout,
   signup,
 } from "../controllers/auth.controller";
@@ -14,7 +13,5 @@ AuthRouter.post("/otp/send", OtpSent);
 AuthRouter.post("/otp/verify", otpVerify);
 
 AuthRouter.post("/signup", signup);
-
-AuthRouter.post("/signin", signin);
 
 AuthRouter.post("/signout", signout);
