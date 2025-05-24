@@ -40,13 +40,13 @@ app.get("/api/v1/authenticated", authMiddleware, (req, res) => {
 app.use("/api/v1/auth", AuthRouter);
 
 // Profile
-app.use("/api/v1/profile", ProfileRouter);
+app.use("/api/v1/profile", authMiddleware, ProfileRouter);
 
 // REQUESTS: send/rejected/:userId && send/interested/:userId
-app.use("/api/v1/connection", ConnectionRouter);
+app.use("/api/v1/connection", authMiddleware, ConnectionRouter);
 
 // Upload image
-app.post("/api/v1/upload", UploadMedia);
+app.post("/api/v1/upload", authMiddleware, UploadMedia);
 
 // Show feed based on category
 app.use("/api/v1/category", authMiddleware, CategoryRoute);

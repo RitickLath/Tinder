@@ -78,7 +78,7 @@ export const rejectedController = async (req: Request, res: Response) => {
         });
         res.status(201).json({
           status: true,
-          message: "It's a Match! They had rejected you, but now you matched.",
+          message: "Mutual Rejection.",
         });
         return;
       }
