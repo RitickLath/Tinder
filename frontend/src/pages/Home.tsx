@@ -1,10 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
+import axios from "axios";
 
 const Home = () => {
   const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/api/v1/authenticated",
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (res.data.success) {
+          navigate("/app/recs");
+        } else {
+          navigate("/");
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        console.log(error);
+        navigate("/");
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="relative w-full h-[100dvh] text-white overflow-hidden">

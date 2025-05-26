@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ onClose }: { onClose: () => void }) => {
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   // Send OTP Handler
   const handleSendOTP = async () => {
@@ -49,8 +51,7 @@ const Login = ({ onClose }: { onClose: () => void }) => {
       );
 
       if (response.data.success) {
-        // Authenticated — maybe redirect or call `onClose`
-        onClose(); // Or replace with navigate("/home"), etc.
+        navigate("/app/recs");
       } else {
         setError(response.data.message || "OTP verification failed.");
       }

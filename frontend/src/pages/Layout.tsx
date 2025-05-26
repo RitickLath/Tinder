@@ -24,8 +24,9 @@ const Layout = () => {
         } else {
           navigate("/");
         }
-      } catch (error) {
-        console.error("Auth check failed", error);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        console.log(error);
         navigate("/");
       } finally {
         setLoading(false);
@@ -33,7 +34,7 @@ const Layout = () => {
     };
 
     fetchData();
-  }, [navigate]);
+  }, []);
 
   if (loading) {
     return (
@@ -41,8 +42,7 @@ const Layout = () => {
     );
   }
 
-  if (!isAuthenticated && !loading) {
-    navigate("/");
+  if (!isAuthenticated) {
     return null;
   }
 

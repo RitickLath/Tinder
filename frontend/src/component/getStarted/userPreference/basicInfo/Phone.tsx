@@ -24,6 +24,7 @@ const Phone = ({ index, setIndex }: IProp) => {
         { withCredentials: true }
       );
       if (response.data.success) {
+        console.log(response.data?.data);
         return true;
       }
       setError(response.data?.message);

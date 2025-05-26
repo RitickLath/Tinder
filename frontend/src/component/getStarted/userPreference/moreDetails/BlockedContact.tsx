@@ -3,8 +3,9 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import type { RootState } from "../../../../redux/store";
+import type { IProp } from "../../../../constants/hardcoded/constants";
 
-const BlockedContact = () => {
+const BlockedContact = ({ index, setIndex }: IProp) => {
   const [blockedNumbers, setBlockedNumbers] = useState<string[]>([]);
   const [inputNumber, setInputNumber] = useState<string>("");
   const navigate = useNavigate();
@@ -21,9 +22,8 @@ const BlockedContact = () => {
         { withCredentials: true }
       );
       if (response.data.success) {
-        navigate("/app/recs");
+        setIndex(index + 1);
       }
-      console.log("");
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

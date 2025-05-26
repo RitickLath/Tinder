@@ -67,11 +67,11 @@ const ConditionalPage = () => {
         {/* What are you Into */}
         {index == 13 && <WhatAreYouInto index={index} setIndex={setIndex} />}
 
-        {/* Recent Pics of yours */}
-        {index == 14 && <RecentPics index={index} setIndex={setIndex} />}
-
         {/* Block Contacts */}
-        {index == 15 && <BlockedContact />}
+        {index == 14 && <BlockedContact index={index} setIndex={setIndex} />}
+
+        {/* Recent Pics of yours */}
+        {index == 15 && <RecentPics />}
       </div>
     </div>
   );
