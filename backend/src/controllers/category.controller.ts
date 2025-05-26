@@ -15,7 +15,7 @@ export const categoryController = async (req: Request, res: Response) => {
     });
 
     console.log(user);
-    res.status(200).json({ status: true, data: user, category });
+    res.status(200).json({ success: true, data: user, category });
   } catch (error: any) {
     console.error("Error in category controller:", error.message);
     res.status(500).json({

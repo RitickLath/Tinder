@@ -33,7 +33,7 @@ app.use(cookieParsar());
 
 // Protected Route authentications
 app.get("/api/v1/authenticated", authMiddleware, (req, res) => {
-  res.status(201).json({ status: true, message: "Allowed" });
+  res.status(201).json({ success: true, message: "Allowed" });
 });
 
 // REQUESTS: otp/send && otp/verify && signup && signin && signout
@@ -46,7 +46,7 @@ app.use("/api/v1/profile", authMiddleware, ProfileRouter);
 app.use("/api/v1/connection", authMiddleware, ConnectionRouter);
 
 // Upload image
-app.post("/api/v1/upload", authMiddleware, UploadMedia);
+app.use("/api/v1/upload", authMiddleware, UploadMedia);
 
 // Show feed based on category
 app.use("/api/v1/category", authMiddleware, CategoryRoute);

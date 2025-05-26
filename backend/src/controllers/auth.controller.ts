@@ -342,7 +342,7 @@ export const signup = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({
-      status: true,
+      success: true,
       message: "Signup successful.",
       user: {
         id: newUser.id,
@@ -367,7 +367,7 @@ export const signout = async (req: Request, res: Response) => {
 
     return res
       .status(200)
-      .json({ status: true, message: "Logout successful." });
+      .json({ success: true, message: "Logout successful." });
   } catch (error: any) {
     console.error("Logout error:", error.message);
     return res

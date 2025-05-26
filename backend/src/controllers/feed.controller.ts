@@ -72,7 +72,7 @@ export const feedController = async (req: Request, res: Response) => {
     }
 
     res.status(200).json({
-      status: true,
+      success: true,
       message: "Feed fetched successfully.",
       data: feedUsers,
     });

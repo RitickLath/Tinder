@@ -64,7 +64,7 @@ export const rejectedController = async (req: Request, res: Response) => {
           data: { status: "NotMatched" },
         });
         res.status(201).json({
-          status: true,
+          success: true,
           message: "Marked as NOT_MATCHED. They were interested in you.",
         });
         return;
@@ -77,7 +77,7 @@ export const rejectedController = async (req: Request, res: Response) => {
           data: { status: "Matched" },
         });
         res.status(201).json({
-          status: true,
+          success: true,
           message: "Mutual Rejection.",
         });
         return;
@@ -108,7 +108,7 @@ export const rejectedController = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({
-      status: true,
+      success: true,
       message: "Marked as Rejected.",
       data: newRequest,
     });
@@ -173,7 +173,7 @@ export const interestedController = async (req: Request, res: Response) => {
           data: { status: "Matched" },
         });
         res.status(201).json({
-          status: true,
+          success: true,
           message: "It's a Match!",
         });
         return;
@@ -186,7 +186,7 @@ export const interestedController = async (req: Request, res: Response) => {
           data: { status: "NotMatched" },
         });
         res.status(201).json({
-          status: true,
+          success: true,
           message: "Not Possible. They already rejected you.",
         });
         return;
@@ -217,7 +217,7 @@ export const interestedController = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({
-      status: true,
+      success: true,
       message: "Marked as Interested.",
       data: newRequest,
     });

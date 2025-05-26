@@ -14,3 +14,5 @@ export const uploadController = async (req: Request, res: Response) => {
     .status(201)
     .json({ success: true, message: "Uploaded", data: response?.url });
 };
+
+// we have to upload the url in database also.

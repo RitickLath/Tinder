@@ -20,8 +20,6 @@ export const uploader = async (imagePath: string) => {
     // Remove from the server on file upload.
     fs.unlinkSync(imagePath);
     return uploadResult;
-
-    console.log(uploadResult);
   } catch (error: any) {
     fs.unlinkSync(imagePath);
     console.log(error);
